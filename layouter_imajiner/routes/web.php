@@ -13,6 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::middleware(['auth'])->group(function () {
+    // Additional routes for your application can go here
+});
+
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/example', function () {
+    return 'example route';
 });
