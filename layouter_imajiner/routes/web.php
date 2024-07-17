@@ -22,5 +22,5 @@ Route::get('/', function () {
 });
 
 Route::get('/example', function () {
-    return 'example route';
+    return view('example');
 });
