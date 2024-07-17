@@ -4,12 +4,12 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use App\Console\Commands\CreateNewRoute;
 
 class Kernel extends ConsoleKernel
 {
     protected $commands = [
         \App\Console\Commands\CreateNewRoute::class,
+        \App\Console\Commands\CreateStaticFile::class,
     ];
 
     /**
