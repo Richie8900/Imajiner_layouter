@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('PageName');
             $table->string('Description');
             $table->string('Route');
+            $table->unsignedBigInteger('LayoutId');
             $table->foreign('LayoutId')->references('id')->on('test_tables');
             $table->longText('Script');
             $table->timestamps();
