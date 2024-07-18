@@ -10,6 +10,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         \App\Console\Commands\CreateNewRoute::class,
         \App\Console\Commands\CreateStaticFile::class,
+        \App\Console\Commands\CreatePages::class,
     ];
 
     /**

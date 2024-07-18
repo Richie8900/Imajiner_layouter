@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\TestTable;
+use Illuminate\Support\Facades\File;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,4 +25,13 @@ Route::get('/', function () {
 
 Route::get('/example', function () {
     return view('example');
+});
+
+Route::get('/test', function () {
+    $script = TestTable::where('LayoutName', 'ets')->get();
+    $path = resource_path('views/test1.blade.php');
+    File::put($path, $script[0]->Script);
+
+    // dd($script[0]->Script);
+    return view('test1', ['script' => $script]);
 });

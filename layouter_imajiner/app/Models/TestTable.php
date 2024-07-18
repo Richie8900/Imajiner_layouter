@@ -25,7 +25,7 @@ class TestTable extends Model
         $this->record->Tag = "<x.layout.{$formatName}>";
         $this->record->Location = resource_path("/views/components/Layout/{$formatName}.blade.php");
 
-        // creae view, javascript, and css using artisan
+        // create view, javascript, and css using artisan
         Artisan::call('make:static', [
             'name' => $formatName,
         ]);
