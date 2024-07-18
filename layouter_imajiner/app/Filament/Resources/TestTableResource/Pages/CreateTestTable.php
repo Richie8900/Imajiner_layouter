@@ -15,16 +15,8 @@ class CreateTestTable extends CreateRecord
     {
         // create tag name n location
         $formatName = strtolower(preg_replace('/(?<!^)(?=[A-Z])/', '-', $data['LayoutName']));
-        $data['Tag'] = "<x.layout.{$formatName}>";
+        $data['Tag'] = $formatName;
         $data['Location'] = resource_path("/views/components/Layout/{$formatName}.blade.php");
-
-        // create view, javascript, and css using artisan
-        Artisan::call('make:static', [
-            'name' => $formatName,
-        ]);
-        Artisan::call('make:component', [
-            'name' => 'Layout/' . $formatName,
-        ]);
 
         return $data;
     }

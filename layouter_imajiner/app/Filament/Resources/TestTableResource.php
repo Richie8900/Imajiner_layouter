@@ -25,9 +25,11 @@ class TestTableResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextArea::make('LayoutName')
-                    ->label('Layout name'),
+                    ->label('Layout name')
+                    ->required(),
                 Forms\Components\TextArea::make('Script')
-                    ->label('Script'),
+                    ->label('Script')
+                    ->required(),
             ]);
     }
 

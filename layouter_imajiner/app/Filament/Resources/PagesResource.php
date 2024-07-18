@@ -9,9 +9,11 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\Select;
 
 class PagesResource extends Resource
 {
@@ -23,7 +25,22 @@ class PagesResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextArea::make('PageName')
+                    ->label('Page name')
+                    ->required(),
+                Forms\Components\TextArea::make('Description')
+                    ->label('Desciption')
+                    ->required(),
+                Forms\Components\TextArea::make('Script')
+                    ->label('Script')
+                    ->required(),
+                Forms\Components\TextArea::make('Route')
+                    ->label('Route (/path, just input the path name)')
+                    ->required(),
+                Select::make('LayoutId')
+                    ->label('Select Layout')
+                    ->relationship('test_tables', 'LayoutName')
+                    ->required()
             ]);
     }
 
@@ -31,7 +48,12 @@ class PagesResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('PageName')
+                    ->label("Page Name")
+                    ->sortable(),
+                TextColumn::make('Description')
+                    ->label("Description")
+                    ->sortable(),
             ])
             ->filters([
                 //
