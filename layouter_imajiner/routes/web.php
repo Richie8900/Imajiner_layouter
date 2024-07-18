@@ -29,12 +29,13 @@ Route::get('/example', function () {
 });
 
 Route::get('/test', function () {
-    $script = TestTable::where('LayoutName', 'ets')->get();
-    $path = resource_path('views/test1.blade.php');
-    File::put($path, $script[0]->Script);
+    // $script = TestTable::find(3);
+    // dd($script['Tag']);
+    // $path = resource_path('views/test1.blade.php');
+    // File::put($path, $script[0]->Script);
 
     // dd($script[0]->Script);
-    return view('test1', ['script' => $script]);
+    return view('test1');
 });
 Route::get('//testing1', function () {
     return '/testing1 route';
@@ -74,3 +75,5 @@ Route::get('/test9', function () {
     // dd(Pages::where('Route', 'test9')->first()->Route);
     return view('test9', ['data' => Pages::where('Route', 'test9')->first()]);
 });
+Route::get('/test11', function () { return view('test11', ['data' => Pages::where('Route', 'test11')->first()]); });
+Route::get('/test12', function () { return view('test12', ['data' => Pages::where('Route', 'test12')->first()]); });
