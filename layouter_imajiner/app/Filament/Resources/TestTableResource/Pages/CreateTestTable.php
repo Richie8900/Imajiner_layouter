@@ -6,6 +6,7 @@ use App\Filament\Resources\TestTableResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
 
 class CreateTestTable extends CreateRecord
 {
@@ -17,6 +18,9 @@ class CreateTestTable extends CreateRecord
         $formatName = strtolower(preg_replace('/(?<!^)(?=[A-Z])/', '-', $data['LayoutName']));
         $data['Tag'] = $formatName;
         $data['Location'] = resource_path("/views/components/Layout/{$formatName}.blade.php");
+
+        // put script into the view file (NOT DONE, STILL DUMMY)
+        File::put(resource_path("/views/components/Layout/{$formatName}.blade.php"), $data['Script']);
 
         return $data;
     }
