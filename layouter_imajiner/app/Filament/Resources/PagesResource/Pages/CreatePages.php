@@ -18,7 +18,7 @@ class CreatePages extends CreateRecord
         // create tag name n location
         $formatName = strtolower(preg_replace('/(?<!^)(?=[A-Z])/', '-', $data['PageName']));
         $data['Tag'] = $formatName;
-        $data['Location'] = resource_path("/views/{$formatName}.blade.php");
+        $data['Location'] = "/views/{$formatName}.blade.php";
 
         // create view, javascript, and css using artisan
         Artisan::call('make:static', [

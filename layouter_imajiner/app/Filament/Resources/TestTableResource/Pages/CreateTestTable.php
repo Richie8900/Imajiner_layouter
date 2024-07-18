@@ -17,7 +17,7 @@ class CreateTestTable extends CreateRecord
         // create tag name n location
         $formatName = strtolower(preg_replace('/(?<!^)(?=[A-Z])/', '-', $data['LayoutName']));
         $data['Tag'] = $formatName;
-        $data['Location'] = resource_path("/views/components/Layout/{$formatName}.blade.php");
+        $data['Location'] = "/views/components/Layout/{$formatName}.blade.php";
 
         // put script into the view file (NOT DONE, STILL DUMMY)
         File::put(resource_path("/views/components/Layout/{$formatName}.blade.php"), $data['Script']);
