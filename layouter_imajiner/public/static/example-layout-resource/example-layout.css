@@ -1,1 +1,4 @@
 /* Styles for example-layout */
+* {
+    color: red;
+}

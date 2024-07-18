@@ -29,7 +29,7 @@ class CreateStaticFile extends Command
     {
         $name = $this->argument('name');
 
-        $directory = public_path('static/' . $name . 'Resource');
+        $directory = public_path('static/' . $name . '-resource');
 
         // Ensure the directory exists
         if (!File::exists($directory)) {

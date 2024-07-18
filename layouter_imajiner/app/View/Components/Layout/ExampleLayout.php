@@ -8,12 +8,13 @@ use Illuminate\View\Component;
 
 class ExampleLayout extends Component
 {
+    public $tag;
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct($tag)
     {
-        //
+        $this->tag = $tag;
     }
 
     /**
