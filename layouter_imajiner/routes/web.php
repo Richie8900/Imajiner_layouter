@@ -75,5 +75,15 @@ Route::get('/test9', function () {
     // dd(Pages::where('Route', 'test9')->first()->Route);
     return view('test9', ['data' => Pages::where('Route', 'test9')->first()]);
 });
-Route::get('/test11', function () { return view('test11', ['data' => Pages::where('Route', 'test11')->first()]); });
-Route::get('/test12', function () { return view('test12', ['data' => Pages::where('Route', 'test12')->first()]); });
+Route::get('/test11', function () {
+    return view('test11', ['data' => Pages::where('Route', 'test11')->first()]);
+});
+Route::get('/test12', function () {
+    return view('test12', ['data' => Pages::where('Route', 'test12')->first()]);
+});
+Route::get('/test13', function () {
+    return view('test13', ['data' => Pages::where('Route', 'test13')->first()]);
+});
+Route::get('/testing22jul3', function () {
+    return view('testing22jul3', ['data' => Pages::where('Route', 'testing22jul3')->first()]);
+});

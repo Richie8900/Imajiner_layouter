@@ -15,6 +15,8 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Select;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Artisan;
 
 class PagesResource extends Resource
 {
@@ -32,9 +34,9 @@ class PagesResource extends Resource
                 Forms\Components\TextArea::make('Description')
                     ->label('Desciption')
                     ->required(),
-                Forms\Components\TextArea::make('Script')
-                    ->label('Script')
-                    ->required(),
+                // Forms\Components\TextArea::make('Script')
+                //     ->label('Script')
+                //     ->required(),
                 Forms\Components\TextArea::make('Route')
                     ->label('Route (/path, just input the path name)')
                     ->required(),
@@ -61,14 +63,12 @@ class PagesResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                DeleteAction::make()
+                Tables\Actions\DeleteAction::make()
                     ->before(function ($record) {
-                        // Custom logic before deletion
-                        // \Log::info('Before deleting post: ' . $record->id);
-                    })
-                    ->after(function ($record) {
-                        // Custom logic after deletion
-                        // \Log::info('After deleting post: ' . $record->id);
+                        // delete route
+                        Artisan::call('make:route', [
+                            'name' => $record->Route,
+                        ]);
                     }),
             ])
             ->bulkActions([

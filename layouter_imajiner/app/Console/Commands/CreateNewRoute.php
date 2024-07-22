@@ -31,6 +31,11 @@ class CreateNewRoute extends Command
 
         $path = base_path('routes/web.php');
 
+        if (!File::exists($path)) {
+            $this->error("The file web.php does not exist.");
+            return;
+        }
+
         // Append the new route to web.php
         File::append($path, $routeContent);
 
