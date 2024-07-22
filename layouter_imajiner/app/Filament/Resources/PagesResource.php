@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PagesResource\Pages;
 use App\Filament\Resources\PagesResource\RelationManagers;
 use App\Models\Pages as ModelPage;
+use Filament\Actions\DeleteAction;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -60,6 +61,15 @@ class PagesResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                DeleteAction::make()
+                    ->before(function ($record) {
+                        // Custom logic before deletion
+                        // \Log::info('Before deleting post: ' . $record->id);
+                    })
+                    ->after(function ($record) {
+                        // Custom logic after deletion
+                        // \Log::info('After deleting post: ' . $record->id);
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
