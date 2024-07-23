@@ -65,10 +65,6 @@ class PagesResource extends Resource
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()
                     ->before(function ($record) {
-                        // // delete route
-                        // Artisan::call('make:route', [
-                        //     'name' => $record->Route,
-                        // ]);
                         // Delete static file 
                         Artisan::call('delete:static', [
                             'name' => $record->PageName,

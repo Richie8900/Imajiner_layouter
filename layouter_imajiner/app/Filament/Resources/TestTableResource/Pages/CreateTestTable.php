@@ -19,7 +19,12 @@ class CreateTestTable extends CreateRecord
         $data['Tag'] = $formatName;
         $data['Location'] = "/views/components/Layout/{$formatName}.blade.php";
 
-        // put script into the view file (NOT DONE, STILL DUMMY)
+        // artisan make:component
+        Artisan::call('make:component', [
+            'name' => 'Layout/' . $data['LayoutName'],
+        ]);
+
+        // replace existing script
         File::put(resource_path("/views/components/Layout/{$formatName}.blade.php"), $data['Script']);
 
         return $data;
