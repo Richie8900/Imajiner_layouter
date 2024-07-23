@@ -14,11 +14,16 @@ return new class extends Migration
         Schema::create('pages', function (Blueprint $table) {
             $table->id();
             $table->string('PageName');
-            $table->string('Description');
+            $table->string('Description')->nullable();
             $table->string('Route');
             $table->unsignedBigInteger('LayoutId');
-            $table->foreign('LayoutId')->references('id')->on('test_tables');
-            $table->longText('Script');
+            $table->unsignedBigInteger('HeaderId')->nullable();
+            $table->unsignedBigInteger('FooterId')->nullable();
+            $table->foreign('LayoutId')->references('id')->on('layouts');
+            $table->foreign('LayoutId')->references('id')->on('headers');
+            $table->foreign('LayoutId')->references('id')->on('footers');
+            $table->string('Location');
+            $table->longText('Script')->nullable();
             $table->timestamps();
         });
     }
