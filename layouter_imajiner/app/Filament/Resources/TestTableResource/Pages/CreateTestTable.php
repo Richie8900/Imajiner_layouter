@@ -12,6 +12,12 @@ class CreateTestTable extends CreateRecord
 {
     protected static string $resource = TestTableResource::class;
 
+    // redirect to index page
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
+
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         // create tag name n location

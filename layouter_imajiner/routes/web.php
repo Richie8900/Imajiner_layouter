@@ -87,3 +87,4 @@ Route::get('/test13', function () {
 Route::get('/testing22jul3', function () {
     return view('testing22jul3', ['data' => Pages::where('Route', 'testing22jul3')->first()]);
 });
+Route::get('/testing23Jul', function () { return view('testing23Jul', ['data' => Pages::where('Route', 'testing23Jul')->first()]); });
