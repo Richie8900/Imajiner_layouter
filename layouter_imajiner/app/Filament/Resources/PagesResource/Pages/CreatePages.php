@@ -60,7 +60,7 @@ class CreatePages extends CreateRecord
         $layoutTagClose";
 
         // put script into the view file
-        File::put(resource_path("/views/{$formatName}.blade.php"), $data['Script']);
+        File::put(resource_path($data['Location']), $data['Script']);
 
         // create route
         Artisan::call('make:route', [

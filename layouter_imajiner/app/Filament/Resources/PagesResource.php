@@ -31,6 +31,7 @@ class PagesResource extends Resource
                 Forms\Components\TextArea::make('PageName')
                     ->label('Page name')
                     ->required(),
+                // ->disabledOn('edit'),
                 Forms\Components\TextArea::make('Description')
                     ->label('Desciption')
                     ->required(),
@@ -39,11 +40,14 @@ class PagesResource extends Resource
                 //     ->required(),
                 Forms\Components\TextArea::make('Route')
                     ->label('Route (/path, just input the path name)')
-                    ->required(),
+                    ->required()
+                    ->disabledOn('edit'),
                 Select::make('LayoutId')
                     ->label('Select Layout')
                     ->relationship('test_tables', 'LayoutName')
                     ->required()
+                    ->disabledOn('edit'),
+
             ]);
     }
 

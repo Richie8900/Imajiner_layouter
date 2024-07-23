@@ -10,8 +10,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         \App\Console\Commands\CreateNewRoute::class,
         \App\Console\Commands\CreateStaticFile::class,
-        \App\Console\Commands\DeleteRoute::class,
         \App\Console\Commands\DeleteStaticFile::class,
+        \App\Console\Commands\DeleteComponent::class,
     ];
 
     /**
