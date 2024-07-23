@@ -11,6 +11,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\CreateNewRoute::class,
         \App\Console\Commands\CreateStaticFile::class,
         \App\Console\Commands\DeleteRoute::class,
+        \App\Console\Commands\DeleteStaticFile::class,
     ];
 
     /**
