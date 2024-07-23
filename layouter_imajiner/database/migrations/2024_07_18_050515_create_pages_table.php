@@ -16,14 +16,14 @@ return new class extends Migration
             $table->string('PageName');
             $table->string('Description')->nullable();
             $table->string('Route');
-            $table->unsignedBigInteger('LayoutId');
+            $table->unsignedBigInteger('LayoutId')->nullable();
             $table->unsignedBigInteger('HeaderId')->nullable();
             $table->unsignedBigInteger('FooterId')->nullable();
             $table->foreign('LayoutId')->references('id')->on('layouts');
             $table->foreign('LayoutId')->references('id')->on('headers');
             $table->foreign('LayoutId')->references('id')->on('footers');
-            $table->string('Location');
             $table->longText('Script')->nullable();
+            $table->string('Location');
             $table->timestamps();
         });
     }
