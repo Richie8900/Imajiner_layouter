@@ -36,15 +36,15 @@ class CreatePages extends CreateRecord
 
         $tag = '$data->PageName';
 
-        // $layoutTagOpen = "<x-layout." . TestTable::find($data['LayoutId']) . "tag='{{ $tag }}'>";
-        // $layoutTagClose = "</x-layout." . TestTable::find($data['LayoutId']) . ">";
-        // $headerTag = "<x-header." . TestTable::find($data['HeaderId']) . " title='Insert Title Here'/>";
-        // $footerTag = "<x-footer." . TestTable::find($data['LayoutId']) . "/>";
+        $layoutTagOpen = "<x-layout." . TestTable::find($data['LayoutId']) . "tag='{{ $tag }}'>";
+        $layoutTagClose = "</x-layout." . TestTable::find($data['LayoutId']) . ">";
+        $headerTag = "<x-header." . TestTable::find($data['HeaderId']) . " title='Insert Title Here'/>";
+        $footerTag = "<x-footer." . TestTable::find($data['LayoutId']) . "/>";
 
-        $layoutTagOpen = "<x-layout." . 'example-layout' . " tag='{{ $tag }}'>";
-        $layoutTagClose = "</x-layout." . 'example-layout' . ">";
-        $headerTag = "<x-header." . 'example-header' . " title='Insert Title Here'/>";
-        $footerTag = "<x-footer." . 'example-footer' . "/>";
+        // $layoutTagOpen = "<x-layout." . 'example-layout' . " tag='{{ $tag }}'>";
+        // $layoutTagClose = "</x-layout." . 'example-layout' . ">";
+        // $headerTag = "<x-header." . 'example-header' . " title='Insert Title Here'/>";
+        // $footerTag = "<x-footer." . 'example-footer' . "/>";
 
         // structuring the script
         $data['Script'] =

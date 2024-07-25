@@ -44,7 +44,17 @@ class PagesResource extends Resource
                     ->disabledOn('edit'),
                 Select::make('LayoutId')
                     ->label('Select Layout')
-                    ->relationship('test_tables', 'LayoutName')
+                    ->relationship('layouts', 'LayoutName')
+                    ->required()
+                    ->disabledOn('edit'),
+                Select::make('HeaderId')
+                    ->label('Select Header')
+                    ->relationship('headers', 'HeaderName')
+                    ->required()
+                    ->disabledOn('edit'),
+                Select::make('FooterId')
+                    ->label('Select Footer')
+                    ->relationship('footers', 'FooterName')
                     ->required()
                     ->disabledOn('edit'),
 
