@@ -12,6 +12,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\CreateStaticFile::class,
         \App\Console\Commands\DeleteStaticFile::class,
         \App\Console\Commands\DeleteComponent::class,
+        \App\Console\Commands\testing::class,
     ];
 
     /**

@@ -13,12 +13,18 @@ class CreateHeader extends CreateRecord
 {
     protected static string $resource = HeaderResource::class;
 
+    // redirect after create
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
+
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         // create tag name n location
         $formatName = strtolower(preg_replace('/(?<!^)(?=[A-Z])/', '-', $data['HeaderName']));
         $data['Tag'] = $formatName;
-        $data['Location'] = "/views/components/Layout/{$formatName}.blade.php";
+        $data['Location'] = "views/components/header/{$formatName}.blade.php";
 
         // artisan make:component
         Artisan::call('make:component', [
@@ -26,7 +32,7 @@ class CreateHeader extends CreateRecord
         ]);
 
         // replace existing script
-        File::put(resource_path("/views/components/Header/{$formatName}.blade.php"), $data['Script']);
+        File::put(resource_path("views/components/header/{$formatName}.blade.php"), $data['Script']);
 
         return $data;
     }

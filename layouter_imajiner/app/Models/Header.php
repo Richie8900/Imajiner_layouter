@@ -10,6 +10,14 @@ class Header extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'HeaderName',
+        'Description',
+        'Script',
+        'Tag',
+        'Location'
+    ];
+
     public function pages(): BelongsTo
     {
         return $this->BelongsTo(Header::class);

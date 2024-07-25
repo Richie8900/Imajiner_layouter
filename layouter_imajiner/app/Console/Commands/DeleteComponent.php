@@ -37,8 +37,6 @@ class DeleteComponent extends Command
             $this->error("The view component $name does not exist.");
             return;
         } else {
-            // $this->info("The view component $name has been deleted.");
-            // return;
             // Delete file if exist
             File::delete($viewDirectory);
             File::delete($appDirectory);
