@@ -10,6 +10,14 @@ class Footer extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'FooterName',
+        'Description',
+        'Script',
+        'Tag',
+        'Location'
+    ];
+
     public function pages(): BelongsTo
     {
         return $this->BelongsTo(Footer::class);

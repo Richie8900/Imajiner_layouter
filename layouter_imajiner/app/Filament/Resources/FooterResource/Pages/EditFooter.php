@@ -19,4 +19,19 @@ class EditFooter extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    // redirect after edit
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        if (File::exists(resource_path($data['Location']))) {
+        }
+        $script = File::get(resource_path($data['Location']));
+        $data['Script'] = $script;
+        return $data;
+    }
 }

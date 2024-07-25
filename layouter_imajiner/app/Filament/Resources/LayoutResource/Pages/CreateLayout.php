@@ -13,12 +13,18 @@ class CreateLayout extends CreateRecord
 {
     protected static string $resource = LayoutResource::class;
 
+    // redirect after create
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
+
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         // create tag name n location
         $formatName = strtolower(preg_replace('/(?<!^)(?=[A-Z])/', '-', $data['LayoutName']));
         $data['Tag'] = $formatName;
-        $data['Location'] = "/views/components/Layout/{$formatName}.blade.php";
+        $data['Location'] = "views/components/layout/{$formatName}.blade.php";
 
         // artisan make:component
         Artisan::call('make:component', [
@@ -26,7 +32,7 @@ class CreateLayout extends CreateRecord
         ]);
 
         // replace existing script
-        File::put(resource_path("/views/components/Layout/{$formatName}.blade.php"), $data['Script']);
+        File::put(resource_path("views/components/layout/{$formatName}.blade.php"), $data['Script']);
 
         return $data;
     }

@@ -12,8 +12,11 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-
 use Filament\Tables\Columns\TextColumn;
+
+use App\Models\Pages as PagesModel;
+use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\Artisan;
 
 class LayoutResource extends Resource
 {
@@ -28,9 +31,17 @@ class LayoutResource extends Resource
                 Forms\Components\TextArea::make('LayoutName')
                     ->label('Layout name')
                     ->required(),
+                Forms\Components\TextArea::make('Description')
+                    ->label('Description')
+                    ->required(),
                 Forms\Components\TextArea::make('Script')
                     ->label('Script')
-                    ->required(),
+                    ->required()
+                    ->hiddenOn('edit'),
+                Forms\Components\TextArea::make('Location')
+                    ->label('Location')
+                    ->required()
+                    ->hiddenOn('create'),
             ]);
     }
 
@@ -41,6 +52,9 @@ class LayoutResource extends Resource
                 TextColumn::make('LayoutName')
                     ->label("Layout name")
                     ->sortable(),
+                TextColumn::make('Description')
+                    ->label("Description")
+                    ->sortable(),
                 TextColumn::make('Tag')
                     ->label("Tag")
                     ->sortable(),
@@ -50,6 +64,30 @@ class LayoutResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->before(function ($record, Tables\Actions\DeleteAction $action) {
+                        // Check if the Header record is referenced by any Page record
+                        $isReferenced = PagesModel::where('LayoutId', $record->id)->exists();
+
+                        if ($isReferenced) {
+                            // Use Filament's notification system to display an error message
+                            Notification::make()
+                                ->title('Deletion Failed')
+                                ->danger()
+                                ->body('This layout is referenced in the Pages table and cannot be deleted.')
+                                ->send();
+
+                            // Prevent the deletion from proceeding
+                            $action->cancel();
+                        }
+                    })
+                    ->after(function ($record, $action) {
+                        // Deletes the component files using artisan command
+                        Artisan::call('delete:component', [
+                            'type' => 'Layout',
+                            'name' => $record->LayoutName,
+                        ]);
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
