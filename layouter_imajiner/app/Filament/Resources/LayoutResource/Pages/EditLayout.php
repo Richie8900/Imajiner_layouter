@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Filament\Resources\TestTableResource\Pages;
+namespace App\Filament\Resources\LayoutResource\Pages;
 
-use App\Filament\Resources\TestTableResource;
+use App\Filament\Resources\LayoutResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 
-class EditTestTable extends EditRecord
+class EditLayout extends EditRecord
 {
-    protected static string $resource = TestTableResource::class;
+    protected static string $resource = LayoutResource::class;
 
     protected function getHeaderActions(): array
     {
