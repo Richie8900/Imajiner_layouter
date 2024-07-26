@@ -24,6 +24,8 @@ class HeaderResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Layouter';
+
     public static function form(Form $form): Form
     {
         return $form

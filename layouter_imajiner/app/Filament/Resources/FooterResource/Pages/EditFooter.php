@@ -29,9 +29,11 @@ class EditFooter extends EditRecord
     protected function mutateFormDataBeforeSave(array $data): array
     {
         if (File::exists(resource_path($data['Location']))) {
+            $script = File::get(resource_path($data['Location']));
+            $data['Script'] = $script;
+            return $data;
         }
-        $script = File::get(resource_path($data['Location']));
-        $data['Script'] = $script;
+
         return $data;
     }
 }

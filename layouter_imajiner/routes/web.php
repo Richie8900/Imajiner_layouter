@@ -23,3 +23,4 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/', function () {
     return view('home');
 });
+Route::get('/asd', function () { return view('asd', ['data' => Pages::where('Route', 'asd')->first()]); });

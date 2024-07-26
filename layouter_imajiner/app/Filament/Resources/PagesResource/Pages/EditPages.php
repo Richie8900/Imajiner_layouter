@@ -21,11 +21,12 @@ class EditPages extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        // $script = File::get(resource_path($data['Location']));
-        // $name = ;
-        $script = File::get(resource_path('views/' . $data['PageName'] . '.blade.php'));
-        // $script = $data['id'];
-        $data['Script'] = $script;
+        if (File::exists(resource_path($data['Location']))) {
+            $script = File::get(resource_path($data['Location']));
+            $data['Script'] = $script;
+            return $data;
+        }
+
         return $data;
     }
 }
