@@ -23,4 +23,9 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/', function () {
     return view('home');
 });
-Route::get('/asd', function () { return view('asd', ['data' => Pages::where('Route', 'asd')->first()]); });
+Route::get('/asd', function () {
+    return view('asd', ['data' => Pages::where('Route', 'asd')->first()]);
+});
+Route::get('/pageOne', function () {
+    return view('page-one', ['data' => Pages::where('Route', 'pageOne')->first()]);
+});

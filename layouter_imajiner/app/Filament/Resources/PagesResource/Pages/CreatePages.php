@@ -7,7 +7,10 @@ use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
-use App\Models\TestTable;
+
+use App\Models\Layout;
+use App\Models\Header;
+use App\Models\Footer;
 
 class CreatePages extends CreateRecord
 {
@@ -21,6 +24,7 @@ class CreatePages extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
+
         // create tag name n location
         $formatName = strtolower(preg_replace('/(?<!^)(?=[A-Z])/', '-', $data['PageName']));
         $data['Tag'] = $formatName;
@@ -34,31 +38,34 @@ class CreatePages extends CreateRecord
             'name' => $data['PageName'],
         ]);
 
-        $tag = '$data->PageName';
+        $layoutTagName = Layout::find($data['LayoutId'])->Tag;
+        $headerTagName = Header::find($data['HeaderId'])->Tag;
+        $footerTagName = Footer::find($data['FooterId'])->Tag;
 
-        // $layoutTagOpen = "<x-layout." . TestTable::find($data['LayoutId']) . "tag='{{ $tag }}'>";
-        // $layoutTagClose = "</x-layout." . TestTable::find($data['LayoutId']) . ">";
-        // $headerTag = "<x-header." . TestTable::find($data['HeaderId']) . " title='Insert Title Here'/>";
-        // $footerTag = "<x-footer." . TestTable::find($data['LayoutId']) . "/>";
+        $layoutTagOpen = "<x-layout." . $layoutTagName . ">";
+        $layoutTagClose = "</x-layout." . $layoutTagName . ">";
+        $headerTag = "<x-header." . $headerTagName . " title='Insert Title Here'/>";
+        $footerTag = "<x-footer." . $footerTagName . "/>";
 
-        $layoutTagOpen = "<x-layout." . 'example-layout' . " tag='{{ $tag }}'>";
-        $layoutTagClose = "</x-layout." . 'example-layout' . ">";
-        $headerTag = "<x-header." . 'example-header' . " title='Insert Title Here'/>";
-        $footerTag = "<x-footer." . 'example-footer' . "/>";
+        // $layoutTagOpen = "<x-layout." . 'example-layout' . " tag='{{ $tag }}'>";
+        // $layoutTagClose = "</x-layout." . 'example-layout' . ">";
+        // $headerTag = "<x-header." . 'example-header' . " title='Insert Title Here'/>";
+        // $footerTag = "<x-footer." . 'example-footer' . "/>";
 
         // structuring the script
         $data['Script'] =
             "$layoutTagOpen
-            $headerTag
-            {{-- Separator --}} 
+    $headerTag
+    {{-- Separator --}} 
 
-            {{-- Content here, you can delete this comment but please don't delete the 'Separator' comment, as it is used to mark where your content starts in order to save it from the filament page thanks! --}}
+    {{-- Content here, you can delete this comment but please don't delete the 'Separator' comment, as it is used to mark where your content starts in order to save it from the filament page thanks! --}}
         
-            {{-- Separator --}} 
+    {{-- Separator --}} 
 
-            $footerTag
-        $layoutTagClose";
+    $footerTag
+$layoutTagClose";
 
+        // ERROR HERE
         // put script into the view file
         File::put(resource_path($data['Location']), $data['Script']);
 
