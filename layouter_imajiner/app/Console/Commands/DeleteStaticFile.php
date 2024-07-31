@@ -12,7 +12,7 @@ class DeleteStaticFile extends Command
      *
      * @var string
      */
-    protected $signature = 'delete:static {name} {type}';
+    protected $signature = 'delete:static {type} {name}';
 
     /**
      * The console command description.
