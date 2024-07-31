@@ -44,21 +44,24 @@ class PagesResource extends Resource
                     ->label('Route (/path, just input the path name)')
                     ->required()
                     ->disabledOn('edit'),
+                Forms\Components\TextArea::make('Location')
+                    ->label('Location')
+                    ->HiddenOn('create'),
                 Select::make('LayoutId')
                     ->label('Select Layout')
                     ->relationship('layouts', 'LayoutName')
                     ->required()
-                    ->disabledOn('edit'),
+                    ->hiddenOn('edit'),
                 Select::make('HeaderId')
                     ->label('Select Header')
                     ->relationship('headers', 'HeaderName')
                     ->required()
-                    ->disabledOn('edit'),
+                    ->hiddenOn('edit'),
                 Select::make('FooterId')
                     ->label('Select Footer')
                     ->relationship('footers', 'FooterName')
                     ->required()
-                    ->disabledOn('edit'),
+                    ->hiddenOn('edit'),
 
             ]);
     }
