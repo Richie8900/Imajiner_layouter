@@ -12,7 +12,7 @@ class CreateNewRoute extends Command
      *
      * @var string
      */
-    protected $signature = 'make:route {name}';
+    protected $signature = 'make:route {name} {route}';
 
     /**
      * The console command description.
@@ -28,7 +28,8 @@ class CreateNewRoute extends Command
     {
         $name = $this->argument('name');
         $formatName = strtolower(preg_replace('/(?<!^)(?=[A-Z])/', '-', $name));
-        $routeContent = "Route::get('/$name', function () { return view('$formatName', ['data' => Pages::where('Route', '$name')->first()]); });\n";
+        $route = $this->argument('route');
+        $routeContent = "Route::get('/$route', function () { return view('$formatName', ['data' => Pages::where('Route', '$route')->first()]); });\n";
 
         $path = base_path('routes/web.php');
 

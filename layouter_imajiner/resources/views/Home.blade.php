@@ -1,1 +1,1 @@
-welcome to layouter-imajiner
+<div class="font-bold">welcome to layouter-imajiner</div>

@@ -48,13 +48,7 @@ class CreateStaticFile extends Command
         }
 
         // Create the file with a basic structure based on type
-        File::put(
-            $cssPath,
-            "/* Styles for {$name} */\n
-            @tailwind base;\n
-            @tailwind components;\n
-            @tailwind utilities;\n"
-        );
+        File::put($cssPath, "/* Styles for {$name} */\n");
         File::put($jsPath, "// Script for {$name}\n");
 
         $this->info("JS and CSS file for {$name} created successfully in public/static/");
