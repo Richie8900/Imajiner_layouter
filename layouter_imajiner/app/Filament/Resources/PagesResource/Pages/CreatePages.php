@@ -31,8 +31,6 @@ class CreatePages extends CreateRecord
         $data['Tag'] = $formatName;
         $data['Location'] = "views/{$formatName}.blade.php";
 
-        dd($data);
-
         // create view, javascript, and css using artisan
         Artisan::call('make:static', [
             'name' => $formatName,

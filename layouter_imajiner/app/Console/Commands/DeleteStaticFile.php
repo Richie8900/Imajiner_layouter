@@ -33,17 +33,15 @@ class DeleteStaticFile extends Command
         $directoryPath = public_path("static/$name-resource");
         $viewPath = resource_path("views/$formatName.blade.php");
 
-        // CHANGEHERECHANGEHERECHANGEHERECHANGEHERECHANGEHERECHANGEHERECHANGEHERECHANGEHERE
-
         if ($type == "view") {
-            // Check if the directory exists
-            if (!File::exists($viewPath)) {
-                $this->error("The directory $viewPath does not exist.");
-                return;
-            }
+            // // Check if the directory exists
+            // if (!File::exists($viewPath)) {
+            //     $this->error("The directory $viewPath does not exist.");
+            //     return;
+            // }
 
-            // Delete all files in the directory
-            File::delete($viewPath);
+            // // Delete all files in the directory
+            // File::delete($viewPath);
         }
 
         // Check if the directory exists
@@ -58,7 +56,6 @@ class DeleteStaticFile extends Command
             File::delete($file);
             $this->info("The directory $file deleted.");
         }
-
 
         // Delete the directory
         if (File::deleteDirectory($directoryPath)) {
