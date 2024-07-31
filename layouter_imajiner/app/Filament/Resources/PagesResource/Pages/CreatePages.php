@@ -24,8 +24,6 @@ class CreatePages extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-
-
         // create tag name n location
         $formatName = strtolower(preg_replace('/(?<!^)(?=[A-Z])/', '-', $data['PageName']));
         $data['Tag'] = $formatName;
@@ -48,21 +46,15 @@ class CreatePages extends CreateRecord
         $headerTag = "<x-header." . $headerTagName . " title='Insert Title Here'/>";
         $footerTag = "<x-footer." . $footerTagName . "/>";
 
-        // $layoutTagOpen = "<x-layout." . 'example-layout' . " tag='{{ $tag }}'>";
-        // $layoutTagClose = "</x-layout." . 'example-layout' . ">";
-        // $headerTag = "<x-header." . 'example-header' . " title='Insert Title Here'/>";
-        // $footerTag = "<x-footer." . 'example-footer' . "/>";
-
         // structuring the script
         $data['Script'] =
             "$layoutTagOpen
     $headerTag
-    {{-- Separator --}} 
+    <link rel=\"stylesheet\" href=\"{{ asset('static/$formatName-resource/$formatName.css') }}\">
 
-    {{-- Content here, you can delete this comment but please don't delete the 'Separator' comment, as it is used to mark where your content starts in order to save it from the filament page thanks! --}}
-        
-    {{-- Separator --}} 
+    {{-- Content here --}}
 
+    <script src=\"{{ asset('static/$formatName-resource/$formatName.js') }}\"></script>
     $footerTag
 $layoutTagClose";
 
