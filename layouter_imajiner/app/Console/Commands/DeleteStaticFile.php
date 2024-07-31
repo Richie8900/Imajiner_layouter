@@ -34,14 +34,14 @@ class DeleteStaticFile extends Command
         $viewPath = resource_path("views/$formatName.blade.php");
 
         if ($type == "view") {
-            // // Check if the directory exists
-            // if (!File::exists($viewPath)) {
-            //     $this->error("The directory $viewPath does not exist.");
-            //     return;
-            // }
+            // Check if the directory exists
+            if (!File::exists($viewPath)) {
+                $this->error("The directory $viewPath does not exist.");
+                return;
+            }
 
-            // // Delete all files in the directory
-            // File::delete($viewPath);
+            // Delete all files in the directory
+            File::delete($viewPath);
         }
 
         // Check if the directory exists
