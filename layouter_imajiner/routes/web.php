@@ -29,3 +29,6 @@ Route::get('/asd', function () {
 Route::get('/pageOne', function () {
     return view('page-one', ['data' => Pages::where('Route', 'pageOne')->first()]);
 });
+Route::get('/pageTwo', function () {
+    return view('page-two', ['data' => Pages::where('Route', 'pageTwo')->first()]);
+});

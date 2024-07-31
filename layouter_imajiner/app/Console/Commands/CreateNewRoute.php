@@ -27,7 +27,8 @@ class CreateNewRoute extends Command
     public function handle()
     {
         $name = $this->argument('name');
-        $routeContent = "Route::get('/$name', function () { return view('$name', ['data' => Pages::where('Route', '$name')->first()]); });\n";
+        $formatName = strtolower(preg_replace('/(?<!^)(?=[A-Z])/', '-', $name));
+        $routeContent = "Route::get('/$name', function () { return view('$formatName', ['data' => Pages::where('Route', '$name')->first()]); });\n";
 
         $path = base_path('routes/web.php');
 

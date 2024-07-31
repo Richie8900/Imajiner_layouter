@@ -25,10 +25,13 @@ class CreatePages extends CreateRecord
     protected function mutateFormDataBeforeCreate(array $data): array
     {
 
+
         // create tag name n location
         $formatName = strtolower(preg_replace('/(?<!^)(?=[A-Z])/', '-', $data['PageName']));
         $data['Tag'] = $formatName;
         $data['Location'] = "views/{$formatName}.blade.php";
+
+        dd($data);
 
         // create view, javascript, and css using artisan
         Artisan::call('make:static', [

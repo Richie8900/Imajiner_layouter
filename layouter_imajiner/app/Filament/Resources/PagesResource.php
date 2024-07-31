@@ -84,6 +84,7 @@ class PagesResource extends Resource
                         // Delete static file 
                         Artisan::call('delete:static', [
                             'name' => $record->PageName,
+                            'type' => 'view',
                         ]);
                     }),
             ])
