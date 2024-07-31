@@ -34,7 +34,7 @@ class CreatePages extends CreateRecord
             'name' => $formatName,
         ]);
         Artisan::call('make:view', [
-            'name' => $data['PageName'],
+            'name' => $formatName,
         ]);
 
         $layoutTagName = Layout::find($data['LayoutId'])->Tag;
@@ -58,13 +58,13 @@ class CreatePages extends CreateRecord
     $footerTag
 $layoutTagClose";
 
-        // ERROR HERE
         // put script into the view file
         File::put(resource_path($data['Location']), $data['Script']);
 
         // create route
         Artisan::call('make:route', [
-            'name' => $data['Route'],
+            'name' => $data['PageName'],
+            'route' => $data['Route'],
         ]);
 
         return $data;

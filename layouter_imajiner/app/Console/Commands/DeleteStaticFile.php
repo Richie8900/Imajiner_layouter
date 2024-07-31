@@ -30,7 +30,7 @@ class DeleteStaticFile extends Command
         $name = $this->argument('name');
         $formatName = strtolower(preg_replace('/(?<!^)(?=[A-Z])/', '-', $name));
 
-        $directoryPath = public_path("static/$name-resource");
+        $directoryPath = public_path("static/$formatName-resource");
         $viewPath = resource_path("views/$formatName.blade.php");
 
         if ($type == "view") {
