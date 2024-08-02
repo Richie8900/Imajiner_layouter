@@ -46,6 +46,11 @@ class HeaderResource extends Resource
                     ->required()
                     ->hiddenOn('create'),
                 // ->disabledOn('edit'),
+                Forms\Components\Actions::make([
+                    Forms\Components\Actions\Action::make('Preview Header')
+                        ->action('redirectToPreview')
+                ])
+                    ->hiddenOn('create'),
             ]);
     }
 

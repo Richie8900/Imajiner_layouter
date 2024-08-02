@@ -7,7 +7,7 @@
     <title>Document</title>
     @vite('resources/css/app.css')
 </head>
-<body>
+<body class="bg-slate-500">
     <x-preview.preview-component category="{{ $category }}" id="{{ $id }}"/>
 </body>
 </html>
