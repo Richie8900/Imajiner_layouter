@@ -17,16 +17,16 @@ class PreviewComponent extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(public $category)
+    public function __construct(public $category, public $id)
     {
         if ($category == 'layout') {
-            $this->componentData = Layout::all();
+            $this->componentData = Layout::find($id);
         } else if ($category == 'header') {
-            $this->componentData = Header::all();
+            $this->componentData = Header::find($id);
         } else if ($category == 'footer') {
-            $this->componentData = Footer::all();
+            $this->componentData = Footer::find($id);
         } else if ($category == 'footer') {
-            $this->componentData = Comp::all();
+            $this->componentData = Comp::find($id);
         }
     }
 

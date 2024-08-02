@@ -17,6 +17,7 @@ use Filament\Tables\Columns\TextColumn;
 use App\Models\Pages as PagesModel;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Redirect;
 
 class LayoutResource extends Resource
 {
@@ -43,6 +44,11 @@ class LayoutResource extends Resource
                 Forms\Components\TextArea::make('Location')
                     ->label('Location')
                     ->required()
+                    ->hiddenOn('create'),
+                Forms\Components\Actions::make([
+                    Forms\Components\Actions\Action::make('Preview Header')
+                        ->action('redirectToPreview')
+                ])
                     ->hiddenOn('create'),
             ]);
     }

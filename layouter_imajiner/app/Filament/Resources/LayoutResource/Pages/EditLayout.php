@@ -8,6 +8,7 @@ use Filament\Resources\Pages\EditRecord;
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Redirect;
 
 class EditLayout extends EditRecord
 {
@@ -24,6 +25,12 @@ class EditLayout extends EditRecord
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
+    }
+
+    public function redirectToPreview()
+    {
+        $id = $this->record->id; // Get the current record's ID
+        return Redirect::to("/componentPreview/layout/{$id}");
     }
 
     protected function mutateFormDataBeforeSave(array $data): array

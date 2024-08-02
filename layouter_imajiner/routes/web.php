@@ -23,8 +23,8 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/', function () {
     return view('home');
 });
-Route::get('/componentPreview/{category}', function ($category) {
-    return view('Preview/Preview', ['category' => $category]);
+Route::get('/componentPreview/{category}/{id}', function ($category, $id) {
+    return view('Preview/Preview', ['category' => $category, 'id' => $id]);
 });
 
 Route::get('/test', function () {

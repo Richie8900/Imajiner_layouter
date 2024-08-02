@@ -8,8 +8,6 @@
     @vite('resources/css/app.css')
 </head>
 <body>
-    <div class="m-5">
-        <x-preview.preview-component category="{{ $category }}"/>
-    </div>
+    <x-preview.preview-component category="{{ $category }}" id="{{ $id }}"/>
 </body>
 </html>
