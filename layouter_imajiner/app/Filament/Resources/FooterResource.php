@@ -44,6 +44,11 @@ class FooterResource extends Resource
                     ->label('Location')
                     ->required()
                     ->hiddenOn('create'),
+                Forms\Components\Actions::make([
+                    Forms\Components\Actions\Action::make('Preview Header')
+                        ->action('redirectToPreview')
+                ])
+                    ->hiddenOn('create'),
             ]);
     }
 

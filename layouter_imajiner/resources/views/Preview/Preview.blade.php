@@ -45,10 +45,14 @@
             </nav>
         @endif
     <div id="content" class="h-full flex items-center justify-center text-2xl">
-        @if ($category == 'header' || $category == 'footer' )
-            Content here
+        @if ($category == 'header' || $category == 'footer' || $category == 'component')
+            @if ($category == 'component')
+                <x-preview.preview-component category="{{ $category }}" id="{{ $id }}"/>
+            @else
+                Content here
+            @endif
         @else
-        <span class="text-red-600">Invalid category!</span>
+            <span class="text-red-600">Invalid category!</span>
         @endif
     </div>
     @if ($category == 'footer')

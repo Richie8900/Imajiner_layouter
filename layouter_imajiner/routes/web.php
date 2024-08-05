@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Models\TestTable;
 use Illuminate\Support\Facades\File;
 
+use App\Http\Controllers\DataSyncController as Sync;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,6 +26,15 @@ Route::get('/', function () {
     return view('home');
 });
 Route::get('/componentPreview/{category}/{id}', function ($category, $id) {
+    if ($category == 'header') {
+        Sync::syncHeader($id);
+    } else if ($category == 'footer') {
+        Sync::syncFooter($id);
+    } else if ($category == 'component') {
+        Sync::syncComponent($id);
+    } else {
+        abort(404);
+    }
     return view('Preview/Preview', ['category' => $category, 'id' => $id]);
 });
 
