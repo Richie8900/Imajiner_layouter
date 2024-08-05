@@ -38,3 +38,4 @@ Route::get('/componentPreview/{category}/{id}', function ($category, $id) {
     }
     return view('Preview/Preview', ['category' => $category, 'id' => $id]);
 });
+Route::get('/home', function () { return view('home', ['data' => Pages::where('Route', 'home')->first()]); });

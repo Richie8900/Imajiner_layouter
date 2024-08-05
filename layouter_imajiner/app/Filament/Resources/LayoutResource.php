@@ -33,7 +33,8 @@ class LayoutResource extends Resource
             ->schema([
                 Forms\Components\TextArea::make('LayoutName')
                     ->label('Layout name')
-                    ->required(),
+                    ->required()
+                    ->disabledOn('edit'),
                 Forms\Components\TextArea::make('Description')
                     ->label('Description')
                     ->required(),

@@ -32,14 +32,14 @@ class PagesResource extends Resource
             ->schema([
                 Forms\Components\TextArea::make('PageName')
                     ->label('Page name')
-                    ->required(),
-                // ->disabledOn('edit'),
+                    ->required()
+                    ->disabledOn('edit'),
                 Forms\Components\TextArea::make('Description')
-                    ->label('Desciption')
+                    ->label('Description')
                     ->required(),
-                // Forms\Components\TextArea::make('Script')
-                //     ->label('Script')
-                //     ->required(),
+                Forms\Components\TextArea::make('Script')
+                    ->label('Script')
+                    ->columnSpanFull(),
                 Forms\Components\TextArea::make('Route')
                     ->label('Route (/path, just input the path name)')
                     ->required()

@@ -32,7 +32,8 @@ class FooterResource extends Resource
             ->schema([
                 Forms\Components\TextArea::make('FooterName')
                     ->label('Footer name')
-                    ->required(),
+                    ->required()
+                    ->disabledOn('edit'),
                 Forms\Components\TextArea::make('Description')
                     ->label('Description')
                     ->required(),

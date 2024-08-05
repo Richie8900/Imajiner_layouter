@@ -44,7 +44,7 @@
                 </div>
             </nav>
         @endif
-    <div id="content" class="h-full flex items-center justify-center text-2xl">
+    <div id="content" class="h-full m-5">
         @if ($category == 'header' || $category == 'footer' || $category == 'component')
             @if ($category == 'component')
                 <x-preview.preview-component category="{{ $category }}" id="{{ $id }}"/>
