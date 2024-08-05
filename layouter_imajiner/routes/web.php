@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\TestTable;
 use Illuminate\Support\Facades\File;
 
-use App\Http\Controllers\DataSyncController as Sync;
+use App\Http\Controllers\DataSyncController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,13 +25,14 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/', function () {
     return view('home');
 });
+
 Route::get('/componentPreview/{category}/{id}', function ($category, $id) {
     if ($category == 'header') {
-        Sync::syncHeader($id);
+        DataSyncController::syncHeader($id);
     } else if ($category == 'footer') {
-        Sync::syncFooter($id);
+        DataSyncController::syncFooter($id);
     } else if ($category == 'component') {
-        Sync::syncComponent($id);
+        DataSyncController::syncComponent($id);
     } else {
         abort(404);
     }
