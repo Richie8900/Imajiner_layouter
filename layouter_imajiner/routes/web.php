@@ -37,13 +37,3 @@ Route::get('/componentPreview/{category}/{id}', function ($category, $id) {
     }
     return view('Preview/Preview', ['category' => $category, 'id' => $id]);
 });
-
-Route::get('/test', function () {
-    return view('test-page', ['data' => Pages::where('Route', 'test')->first()]);
-});
-Route::get('/home', function () {
-    return view('home-page', ['data' => Pages::where('Route', 'home')->first()]);
-});
-Route::get('/about', function () {
-    return view('about', ['data' => Pages::where('Route', 'about')->first()]);
-});
