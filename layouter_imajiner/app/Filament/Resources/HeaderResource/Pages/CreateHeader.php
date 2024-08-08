@@ -8,6 +8,7 @@ use Filament\Resources\Pages\CreateRecord;
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class CreateHeader extends CreateRecord
 {
@@ -22,17 +23,22 @@ class CreateHeader extends CreateRecord
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         // create tag name n location
-        $formatName = strtolower(preg_replace('/(?<!^)(?=[A-Z])/', '-', $data['HeaderName']));
-        $data['Tag'] = $formatName;
-        $data['Location'] = "views/components/header/{$formatName}.blade.php";
+        $data['slug'] = Str::slug($data['HeaderName']);
+        $data['Tag'] = $data['slug'];
+        $data['Location'] = "views/components/header/{$data['slug']}.blade.php";
 
         // artisan make:component
         Artisan::call('make:component', [
             'name' => 'Header/' . $data['HeaderName'],
         ]);
 
+        // artisan make:static
+        Artisan::call('make:static', [
+            'name' => 'Header/' . $data['slug'],
+        ]);
+
         // replace existing script
-        File::put(resource_path("views/components/header/{$formatName}.blade.php"), $data['Script']);
+        File::put(resource_path("views/components/header/{$data['slug']}.blade.php"), $data['Script']);
 
         return $data;
     }

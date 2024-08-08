@@ -13,11 +13,15 @@ return new class extends Migration
     {
         Schema::create('footers', function (Blueprint $table) {
             $table->id();
-            $table->string('FooterName');
-            $table->string('Description')->nullable();
-            $table->longText('Script')->nullable();
-            $table->string('Tag');
-            $table->string('Location');
+            $table->string('name');
+            $table->string('slug');
+            $table->string('description')->nullable();
+            $table->longText('viewScript')->nullable();
+            $table->longText('cssScript')->nullable();
+            $table->longText('jsScript')->nullable();
+            $table->string('tag');
+            $table->string('viewLocation');
+            $table->longText('content')->nullable();
             $table->timestamps();
         });
     }

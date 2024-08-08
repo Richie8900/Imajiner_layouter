@@ -15,28 +15,15 @@ class Pages extends Model
     use HasFactory;
 
     protected $fillable = [
-        'PageName',
-        'Description',
-        'Route',
-        'LayoutId',
-        'HeaderId',
-        'FooterId',
-        'Location',
-        'Script'
+        'name',
+        'slug',
+        'route',
+        'description',
+        'viewScript',
+        'jsScript',
+        'cssScript',
+        'tag',
+        'viewLocation',
+        'content'
     ];
-
-    public function layouts(): HasOne
-    {
-        return $this->hasOne(Layout::class);
-    }
-
-    public function headers(): HasOne
-    {
-        return $this->hasOne(Header::class);
-    }
-
-    public function footers(): HasOne
-    {
-        return $this->hasOne(Footer::class);
-    }
 }

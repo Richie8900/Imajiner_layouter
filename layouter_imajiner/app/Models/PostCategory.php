@@ -5,19 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Component extends Model
+class PostCategory extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
         'slug',
+        'route',
+        'code',
         'description',
-        'viewScript',
-        'jsScript',
-        'cssScript',
-        'tag',
-        'viewLocation',
-        'content'
+        'script',
+        'location',
     ];
 }

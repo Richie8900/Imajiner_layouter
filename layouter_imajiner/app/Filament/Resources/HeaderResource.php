@@ -30,26 +30,26 @@ class HeaderResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextArea::make('HeaderName')
+                Forms\Components\TextInput::make('name')
                     ->label('Header name')
                     ->required()
                     ->disabledOn('edit'),
-                Forms\Components\TextArea::make('Description')
-                    ->label('Description')
-                    ->required(),
-                Forms\Components\TextArea::make('Script')
+                Forms\Components\TextInput::make('description')
+                    ->label('Description'),
+                Forms\Components\TextArea::make('viewScript')
                     ->label('Script')
-                    ->required()
-                    ->hiddenOn('edit'),
-                Forms\Components\TextArea::make('Location')
+                    ->columnSpanFull(),
+                Forms\Components\TextInput::make('Location')
                     ->label('Location')
                     ->required()
+                    ->readOnlyOn('edit')
                     ->hiddenOn('create'),
-                Forms\Components\Actions::make([
-                    Forms\Components\Actions\Action::make('Preview Header')
-                        ->action('redirectToPreview')
-                ])
-                    ->hiddenOn('create'),
+
+                // Forms\Components\Actions::make([
+                //     Forms\Components\Actions\Action::make('Preview Header')
+                //         ->action('redirectToPreview')
+                // ])
+                //     ->hiddenOn('create'),
             ]);
     }
 

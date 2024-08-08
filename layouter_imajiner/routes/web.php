@@ -6,6 +6,7 @@ use App\Models\TestTable;
 use Illuminate\Support\Facades\File;
 
 use App\Http\Controllers\DataSyncController;
+use App\Http\Controllers\RouteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,4 +39,14 @@ Route::get('/componentPreview/{category}/{id}', function ($category, $id) {
     }
     return view('Preview/Preview', ['category' => $category, 'id' => $id]);
 });
-Route::get('/home', function () { return view('home', ['data' => Pages::where('Route', 'home')->first()]); });
+
+Route::get('/test', function () {
+    $data = Pages::where('route', 'testing')->get();
+    // $data = Pages::all();
+    dd(count($data));
+    return view('landingPage', ['data' => $data[0]]);
+});
+
+Route::get('/{slug}', [RouteController::class, 'getStaticRoute']);
+
+Route::get('/{category}/{slug}', [RouteController::class, 'getDynamicRoute']);

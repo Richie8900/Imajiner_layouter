@@ -11,15 +11,14 @@ class Layout extends Model
     use HasFactory;
 
     protected $fillable = [
-        'LayoutName',
-        'Description',
-        'Script',
-        'Tag',
-        'Location'
+        'name',
+        'slug',
+        'description',
+        'viewScript',
+        'jsScript',
+        'cssScript',
+        'tag',
+        'viewLocation',
+        'content'
     ];
-
-    public function pages(): BelongsTo
-    {
-        return $this->BelongsTo(Layout::class);
-    }
 }

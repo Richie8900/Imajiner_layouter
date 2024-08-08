@@ -5,6 +5,9 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
+use Illuminate\Support\Facades\DB;
+use App\Models;
+
 class testing extends Command
 {
     /**
@@ -12,7 +15,7 @@ class testing extends Command
      *
      * @var string
      */
-    protected $signature = 'app:testing';
+    protected $signature = 'app:testing {name}';
 
     /**
      * The console command description.
@@ -26,15 +29,11 @@ class testing extends Command
      */
     public function handle()
     {
-        $a = File::exists(resource_path('views/components/header/header-one.blade.php'));
-        $info = "";
+        // $name = $this->argument('name');
+        // $model = 'App\Models\\' . $name;
+        // $this->info($model::all());
 
-        if ($a) {
-            $info = "info";
-        } else {
-            $info = "error";
-        };
-
-        $this->info($info);
+        $page = Models\Pages::where('route', 'a')->get();
+        $this->info(count($page));
     }
 }

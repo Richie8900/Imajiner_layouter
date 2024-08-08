@@ -11,15 +11,14 @@ class Footer extends Model
     use HasFactory;
 
     protected $fillable = [
-        'FooterName',
-        'Description',
-        'Script',
-        'Tag',
-        'Location'
+        'name',
+        'slug',
+        'description',
+        'viewScript',
+        'jsScript',
+        'cssScript',
+        'tag',
+        'viewLocation',
+        'content'
     ];
-
-    public function pages(): BelongsTo
-    {
-        return $this->BelongsTo(Footer::class);
-    }
 }

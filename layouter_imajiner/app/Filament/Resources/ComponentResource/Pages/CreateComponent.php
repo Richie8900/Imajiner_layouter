@@ -8,6 +8,7 @@ use Filament\Resources\Pages\CreateRecord;
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class CreateComponent extends CreateRecord
 {
@@ -22,9 +23,9 @@ class CreateComponent extends CreateRecord
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         // create tag name n location
-        $formatName = strtolower(preg_replace('/(?<!^)(?=[A-Z])/', '-', $data['ComponentName']));
-        $data['Tag'] = $formatName;
-        $data['Location'] = "views/components/component/{$formatName}.blade.php";
+        $data['slug'] = Str::slug($data['ComponentName']);
+        $data['Tag'] = $data['slug'];
+        $data['Location'] = "views/components/component/{$data['slug']}.blade.php";
 
         // artisan make:component
         Artisan::call('make:component', [
@@ -32,7 +33,7 @@ class CreateComponent extends CreateRecord
         ]);
 
         // replace existing script
-        File::put(resource_path("views/components/component/{$formatName}.blade.php"), $data['Script']);
+        File::put(resource_path("views/components/component/{$data['slug']}.blade.php"), $data['Script']);
 
         return $data;
     }
