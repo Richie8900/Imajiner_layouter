@@ -32,25 +32,33 @@ class CreateStaticFile extends Command
         $directory = public_path('static/' . $name . '-resource');
 
         // Ensure the directory exists
-        if (!File::exists($directory)) {
-            File::makeDirectory($directory, 0755, true);
+        if (File::exists($directory)) {
+            $this->info(File::exists($directory));
+            $this->error("Directory {$directory} already exists.");
+            return;
         } else {
             File::makeDirectory($directory, 0755, true);
         }
 
         // Create the file
-        $cssPath = $directory . "/{$name}.css";
-        $jsPath = $directory . "/{$name}.js";
+        if (preg_match('/\//', $name)) {
+            $name2 = explode('/', $name)[1];
+        } else {
+            $name2 = $name;
+        }
 
-        if (File::exists($cssPath) || File::exists($jsPath)) {
-            $this->error("File {$name} already exists.");
+        $cssPath = $directory . "/{$name2}.css";
+        $jsPath = $directory . "/{$name2}.js";
+
+        if (File::exists($cssPath) && File::exists($jsPath)) {
+            $this->error("File {$name2} already exists.");
             return;
         }
 
         // Create the file with a basic structure based on type
-        File::put($cssPath, "/* Styles for {$name} */\n");
-        File::put($jsPath, "// Script for {$name}\n");
+        File::put($cssPath, "/* Styles for {$name2} */\n");
+        File::put($jsPath, "// Script for {$name2}\n");
 
-        $this->info("JS and CSS file for {$name} created successfully in public/static/");
+        $this->info("JS and CSS file for {$name2} created successfully in public/static/");
     }
 }
