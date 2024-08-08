@@ -25,40 +25,26 @@ class CreateHeader extends CreateRecord
         // generate slug
         $data['slug'] = Str::slug($data['name']);
 
-        // create component files > create resource/views/components + app/View/Components/
+        // create component files > create resource/views/components/... + app/View/Components/...
         Artisan::call('make:component', [
             'name' => 'header/' . $data['slug'],
         ]);
 
-        $data['viewLocation'] = "views/components/header/{$data['slug']}.blade.php";
-        $data['resourceLocation'] = "static/header/" . $data['slug'] . "-resource";
-
-
-        // put script into the view file
-        File::put(resource_path($data['location']), $data['script']);
-
-        // replace existing script
-        File::put(resource_path("views/components/header/{$data['slug']}.blade.php"), $data['Script']);
-
-        //create static file
+        // create component files > create public/static/...-resource
         Artisan::call('make:static', [
             'name' => 'header/' . $data['slug'],
         ]);
 
-        $staticDirectory = public_path('static/' . $data['slug'] . '-resource');
+        // insert script into view
+        $data['viewLocation'] = "views/components/header/{$data['slug']}.blade.php";
+        File::put(resource_path($data['viewLocation']), $data['viewScript']);
 
-        // assign 
-        $cssPath = $directory . "/{$name}.css";
-        $jsPath = $directory . "/{$name}.js";
-
-        if (File::exists($cssPath) || File::exists($jsPath)) {
-            $this->error("File {$name} already exists.");
-            return;
-        }
-
-        // Create the file with a basic structure based on type
-        File::put($cssPath, "/* Styles for {$name} */\n");
-        File::put($jsPath, "// Script for {$name}\n");
+        // insert js n css file into resource folder
+        $data['resourceLocation'] = "static/header/" . $data['slug'] . "-resource";
+        $cssPath = $data['resourceLocation'] . "/" . $data['slug'] . ".css";
+        $jsPath = $data['resourceLocation'] .  "/" . $data['slug'] . ".js";
+        File::put($cssPath, $data['cssScript']);
+        File::put($jsPath, $data['jsScript']);
 
         return $data;
     }
