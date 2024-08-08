@@ -15,11 +15,17 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug');
-            $table->string('route');
             $table->string('code');
+
+            $table->string('route');
+
             $table->string('description')->nullable();
-            $table->string('script')->nullable();
-            $table->string('location');
+            $table->string('viewScript')->nullable();
+            $table->string('jsScript')->nullable();
+            $table->string('cssScript')->nullable();
+
+            $table->string('viewLocation');
+            $table->string('resourceLocation');
             $table->timestamps();
         });
     }

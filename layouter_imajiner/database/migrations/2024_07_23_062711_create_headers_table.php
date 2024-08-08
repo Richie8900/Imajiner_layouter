@@ -16,11 +16,14 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug');
             $table->string('description')->nullable();
+
             $table->longText('viewScript')->nullable();
             $table->longText('cssScript')->nullable();
             $table->longText('jsScript')->nullable();
-            $table->string('tag');
+
             $table->string('viewLocation');
+            $table->string('resourceLocation');
+
             $table->longText('content')->nullable();
             $table->timestamps();
         });

@@ -22,23 +22,43 @@ class CreateHeader extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        // create tag name n location
+        // generate slug
         $data['slug'] = Str::slug($data['name']);
-        $data['tag'] = $data['slug'];
-        $data['location'] = "views/components/header/{$data['slug']}.blade.php";
 
-        // artisan make:component
+        // create component files > create resource/views/components + app/View/Components/
         Artisan::call('make:component', [
             'name' => 'header/' . $data['slug'],
         ]);
 
-        // artisan make:static
+        $data['viewLocation'] = "views/components/header/{$data['slug']}.blade.php";
+        $data['resourceLocation'] = "static/header/" . $data['slug'] . "-resource";
+
+
+        // put script into the view file
+        File::put(resource_path($data['location']), $data['script']);
+
+        // replace existing script
+        File::put(resource_path("views/components/header/{$data['slug']}.blade.php"), $data['Script']);
+
+        //create static file
         Artisan::call('make:static', [
             'name' => 'header/' . $data['slug'],
         ]);
 
-        // replace existing script
-        File::put(resource_path("views/components/header/{$data['slug']}.blade.php"), $data['Script']);
+        $staticDirectory = public_path('static/' . $data['slug'] . '-resource');
+
+        // assign 
+        $cssPath = $directory . "/{$name}.css";
+        $jsPath = $directory . "/{$name}.js";
+
+        if (File::exists($cssPath) || File::exists($jsPath)) {
+            $this->error("File {$name} already exists.");
+            return;
+        }
+
+        // Create the file with a basic structure based on type
+        File::put($cssPath, "/* Styles for {$name} */\n");
+        File::put($jsPath, "// Script for {$name}\n");
 
         return $data;
     }
