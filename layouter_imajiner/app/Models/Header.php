@@ -20,6 +20,11 @@ class Header extends Model
         'tag',
         'viewLocation',
         'resourceLocation',
+        'appViewLocation',
         'content'
+    ];
+
+    protected $casts = [
+        'content' => 'array'
     ];
 }

@@ -27,4 +27,8 @@ class Pages extends Model
         'resourceLocation',
         'content'
     ];
+
+    protected $casts = [
+        'content' => 'array'
+    ];
 }

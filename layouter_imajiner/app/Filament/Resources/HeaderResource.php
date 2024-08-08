@@ -70,13 +70,13 @@ class HeaderResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('HeaderName')
+                TextColumn::make('name')
                     ->label("Header name")
                     ->sortable(),
-                TextColumn::make('Description')
+                TextColumn::make('description')
                     ->label("Description")
                     ->sortable(),
-                TextColumn::make('Tag')
+                TextColumn::make('slug')
                     ->label("Tag")
                     ->sortable(),
             ])

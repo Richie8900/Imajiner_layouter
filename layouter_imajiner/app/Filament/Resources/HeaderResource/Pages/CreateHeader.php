@@ -35,16 +35,28 @@ class CreateHeader extends CreateRecord
             'name' => 'header/' . $data['slug'],
         ]);
 
-        // insert script into view
+        // insert each script into each files
         $data['viewLocation'] = "views/components/header/{$data['slug']}.blade.php";
-        File::put(resource_path($data['viewLocation']), $data['viewScript']);
-
-        // insert js n css file into resource folder
         $data['resourceLocation'] = "static/header/" . $data['slug'] . "-resource";
         $cssPath = $data['resourceLocation'] . "/" . $data['slug'] . ".css";
         $jsPath = $data['resourceLocation'] .  "/" . $data['slug'] . ".js";
+
+        $data['viewScript'] = "
+        <link rel=\"stylesheet\" href=\"{{ asset('" . $cssPath . "') }}\">
+
+    " . $data['viewScript'] . "
+
+    <script src=\"{{ asset('static/" . $jsPath . "') }}\"></script>
+    ";
+        File::put(resource_path($data['viewLocation']), $data['viewScript']);
         File::put($cssPath, $data['cssScript']);
         File::put($jsPath, $data['jsScript']);
+
+        // insert script into app/View/
+        $appDirectory = app_path("View/Header/" . $data['slug'] . ".php");
+
+        File::put($appDirectory,);
+
 
         return $data;
     }

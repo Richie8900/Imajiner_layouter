@@ -3,5 +3,5 @@
     {{ $category }} not found!
 </div>
 @else
-{!! $componentData->Script !!}
+{!! $componentData->viewScript !!}
 @endif

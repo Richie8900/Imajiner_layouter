@@ -23,6 +23,7 @@ return new class extends Migration
 
             $table->string('viewLocation');
             $table->string('resourceLocation');
+            $table->string('appViewLocation');
 
             $table->longText('content')->nullable();
             $table->timestamps();

@@ -15,9 +15,9 @@ class DataSyncController extends Controller
     {
         $data = Header::find($id);
         if ($data != null) {
-            if (File::exists(resource_path($data['Location']))) {
-                $script = File::get(resource_path($data['Location']));
-                $data['Script'] = $script;
+            if (File::exists(resource_path($data['viewLocation']))) {
+                $script = File::get(resource_path($data['viewLocation']));
+                $data['viewScript'] = $script;
                 $data->save();
             }
         }
@@ -25,11 +25,11 @@ class DataSyncController extends Controller
 
     public static function syncFooter($id)
     {
-        $data = Header::find($id);
+        $data = Footer::find($id);
         if ($data != null) {
-            if (File::exists(resource_path($data['Location']))) {
-                $script = File::get(resource_path($data['Location']));
-                $data['Script'] = $script;
+            if (File::exists(resource_path($data['viewLocation']))) {
+                $script = File::get(resource_path($data['viewLocation']));
+                $data['viewScript'] = $script;
                 $data->save();
             }
         }
@@ -37,11 +37,11 @@ class DataSyncController extends Controller
 
     public static function syncComponent($id)
     {
-        $data = Header::find($id);
+        $data = Component::find($id);
         if ($data != null) {
-            if (File::exists(resource_path($data['Location']))) {
-                $script = File::get(resource_path($data['Location']));
-                $data['Script'] = $script;
+            if (File::exists(resource_path($data['viewLocation']))) {
+                $script = File::get(resource_path($data['viewLocation']));
+                $data['viewScript'] = $script;
                 $data->save();
             }
         }
