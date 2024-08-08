@@ -23,7 +23,7 @@ class CreateHeader extends CreateRecord
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         // generate slug
-        $data['slug'] = Str::slug($data['name']);
+        $data['slug'] = str_replace('-', '_', Str::slug($data['name']));
 
         // create component files > create resource/views/components/... + app/View/Components/...
         Artisan::call('make:component', [

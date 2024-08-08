@@ -24,6 +24,7 @@ class Pages extends Model
         'cssScript',
         'tag',
         'viewLocation',
+        'resourceLocation',
         'content'
     ];
 }

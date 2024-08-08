@@ -19,6 +19,7 @@ class Header extends Model
         'cssScript',
         'tag',
         'viewLocation',
+        'resourceLocation',
         'content'
     ];
 }

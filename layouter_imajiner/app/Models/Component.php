@@ -18,6 +18,7 @@ class Component extends Model
         'cssScript',
         'tag',
         'viewLocation',
+        'resourceLocation',
         'content'
     ];
 }
