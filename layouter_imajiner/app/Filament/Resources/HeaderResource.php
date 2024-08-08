@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\TextColumn;
 
 use App\Models\Pages as PagesModel;
+use Filament\Forms\Components\Repeater;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Artisan;
 
@@ -36,20 +37,32 @@ class HeaderResource extends Resource
                     ->disabledOn('edit'),
                 Forms\Components\TextInput::make('description')
                     ->label('Description'),
+                Repeater::make('content')
+                    ->label('Content')
+                    ->schema([
+                        Forms\Components\TextInput::make('title'),
+                        Forms\Components\Textarea::make('description'),
+                    ])
+                    ->columnSpanFull(),
                 Forms\Components\TextArea::make('viewScript')
-                    ->label('Script')
+                    ->label('View Script')
+                    ->columnSpanFull(),
+                Forms\Components\TextArea::make('jsScript')
+                    ->label('Javascript Script')
+                    ->columnSpanFull(),
+                Forms\Components\TextArea::make('cssScript')
+                    ->label('Css Script')
                     ->columnSpanFull(),
                 Forms\Components\TextInput::make('Location')
                     ->label('Location')
                     ->required()
                     ->readOnlyOn('edit')
                     ->hiddenOn('create'),
-
-                // Forms\Components\Actions::make([
-                //     Forms\Components\Actions\Action::make('Preview Header')
-                //         ->action('redirectToPreview')
-                // ])
-                //     ->hiddenOn('create'),
+                Forms\Components\Actions::make([
+                    Forms\Components\Actions\Action::make('Preview Header')
+                        ->action('redirectToPreview')
+                ])
+                    ->hiddenOn('create'),
             ]);
     }
 
@@ -92,8 +105,10 @@ class HeaderResource extends Resource
                     ->after(function ($record, $action) {
                         // Deletes the component files using artisan command
                         Artisan::call('delete:component', [
-                            'type' => 'Header',
-                            'name' => $record->HeaderName,
+                            'name' => 'header/' . $record->slug,
+                        ]);
+                        Artisan::call('delete:static', [
+                            'name' => 'header/' . $record->slug,
                         ]);
                     }),
             ])

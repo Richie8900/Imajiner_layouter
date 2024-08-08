@@ -12,7 +12,7 @@ class DeleteStaticFile extends Command
      *
      * @var string
      */
-    protected $signature = 'delete:static {type} {name}';
+    protected $signature = 'delete:static {name}';
 
     /**
      * The console command description.
@@ -26,23 +26,8 @@ class DeleteStaticFile extends Command
      */
     public function handle()
     {
-        $type = $this->argument('type');
         $name = $this->argument('name');
-        $formatName = strtolower(preg_replace('/(?<!^)(?=[A-Z])/', '-', $name));
-
-        $directoryPath = public_path("static/$formatName-resource");
-        $viewPath = resource_path("views/$formatName.blade.php");
-
-        if ($type == "view") {
-            // Check if the directory exists
-            if (!File::exists($viewPath)) {
-                $this->error("The directory $viewPath does not exist.");
-                return;
-            }
-
-            // Delete all files in the directory
-            File::delete($viewPath);
-        }
+        $directoryPath = public_path("static/$name-resource");
 
         // Check if the directory exists
         if (!File::exists($directoryPath)) {

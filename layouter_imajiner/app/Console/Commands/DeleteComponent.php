@@ -12,7 +12,7 @@ class DeleteComponent extends Command
      *
      * @var string
      */
-    protected $signature = 'delete:component {type} {name}';
+    protected $signature = 'delete:component {name}';
 
     /**
      * The console command description.
@@ -27,10 +27,8 @@ class DeleteComponent extends Command
     public function handle()
     {
         $name = $this->argument('name');
-        $formatName = strtolower(preg_replace('/(?<!^)(?=[A-Z])/', '-', $name));
-        $type = $this->argument('type');
-        $viewDirectory = resource_path("views/components/" . strtolower($type) . "/$formatName.blade.php");
-        $appDirectory = app_path("View/Components/$type/$name.php");
+        $viewDirectory = resource_path("views/components/$name.blade.php");
+        $appDirectory = app_path("View/Components/$name.php");
 
         // Check if the directory exists
         if (!File::exists($viewDirectory) || !File::exists($appDirectory)) {

@@ -23,18 +23,18 @@ class CreateHeader extends CreateRecord
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         // create tag name n location
-        $data['slug'] = Str::slug($data['HeaderName']);
-        $data['Tag'] = $data['slug'];
-        $data['Location'] = "views/components/header/{$data['slug']}.blade.php";
+        $data['slug'] = Str::slug($data['name']);
+        $data['tag'] = $data['slug'];
+        $data['location'] = "views/components/header/{$data['slug']}.blade.php";
 
         // artisan make:component
         Artisan::call('make:component', [
-            'name' => 'Header/' . $data['HeaderName'],
+            'name' => 'header/' . $data['slug'],
         ]);
 
         // artisan make:static
         Artisan::call('make:static', [
-            'name' => 'Header/' . $data['slug'],
+            'name' => 'header/' . $data['slug'],
         ]);
 
         // replace existing script
