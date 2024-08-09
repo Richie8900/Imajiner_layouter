@@ -67,6 +67,12 @@ class $formattedName extends Component
     {
         " . '$this->record' . " = $model::where('slug', '$slug')->get()[0]; 
         " . '$this->content' . " = " . '$this->record' . "['content'];
+        // reformat content
+        " . '$formattedContent' . " = [];
+        foreach (" . '$this->content' . " as " . '$item' . ") {
+            " . '$formattedContent[$item' . "['title']] = " . '$item' . "['description'];
+        }
+        " . '$this->content' . " = " . '$formattedContent' . ";
     }
 
     /**

@@ -26,14 +26,6 @@ class CreateHeader extends CreateRecord
         $data['slug'] = Str::slug($data['name']);
         $formattedName = str_replace(' ', '', $data['name']);
 
-        // reformat content
-        $formattedContent = [];
-        foreach ($data['content'] as $item) {
-            // Use the 'title' as the key and 'description' as the value
-            $formattedContent[$item['title']] = $item['description'];
-        }
-        $data['content'] = $formattedContent;
-
         // create component files > create resource/views/components/... + app/View/Components/...
         Artisan::call('make:component', [
             'name' => 'header/' . $formattedName,
