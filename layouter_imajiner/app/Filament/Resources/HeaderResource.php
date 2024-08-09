@@ -36,7 +36,7 @@ class HeaderResource extends Resource
                     ->required()
                     ->readOnlyOn('edit'),
                 Forms\Components\TextInput::make('slug')
-                    ->label('slug')
+                    ->label('Tag')
                     ->readOnlyOn('edit')
                     ->hiddenOn('create'),
                 Forms\Components\TextInput::make('description')

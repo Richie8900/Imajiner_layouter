@@ -24,7 +24,7 @@ class CreateHeader extends CreateRecord
     {
         // generate slug
         $data['slug'] = Str::slug($data['name']);
-        $formattedName = str_replace(' ', '', $data['name']);
+        $formattedName = str_replace(' ', '', ucwords($data['name']));
 
         // create component files > create resource/views/components/... + app/View/Components/...
         Artisan::call('make:component', [
@@ -57,7 +57,6 @@ class CreateHeader extends CreateRecord
             'component' => 'header',
             'location' => $data['appViewLocation']
         ]);
-        // php artisan add:appView "Header One" header View/Components/header/HeaderOne.php data1 data2 data3
 
         return $data;
     }

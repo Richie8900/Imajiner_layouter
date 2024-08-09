@@ -22,18 +22,53 @@ class CreateLayout extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        // create tag name n location
-        $data['slug'] = Str::slug($data['LayoutName']);
-        $data['Tag'] = $data['slug'];
-        $data['Location'] = "views/components/layout/{$data['slug']}.blade.php";
+        // generate slug
+        $data['slug'] = Str::slug($data['name']);
+        $formattedName = str_replace(' ', '', ucwords($data['name']));
 
-        // artisan make:component
+        // create component files > create resource/views/components/... + app/View/Components/...
         Artisan::call('make:component', [
-            'name' => 'Layout/' . $data['LayoutName'],
+            'name' => 'layout/' . $formattedName,
         ]);
 
-        // replace existing script
-        File::put(resource_path("views/components/layout/{$data['slug']}.blade.php"), $data['Script']);
+        // create component files > create public/static/...-resource
+        Artisan::call('make:static', [
+            'name' => 'layout/' . $data['slug'],
+        ]);
+
+        // insert each script into each files
+        $data['viewLocation'] = "views/components/layout/{$data['slug']}.blade.php";
+        $data['resourceLocation'] = "static/layout/" . $data['slug'] . "-resource";
+        $data['appViewLocation'] = "View/Components/layout/" . $formattedName . ".php";
+        $cssPath = $data['resourceLocation'] . "/" . $data['slug'] . ".css";
+        $jsPath = $data['resourceLocation'] .  "/" . $data['slug'] . ".js";
+
+        $data['viewScript'] = "<!DOCTYPE html>
+<html lang=\"en\">
+<head>
+    <meta charset=\"UTF-8\">
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+    <meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\">
+    <title>Preview</title>
+    @vite('resources/css/app.css')
+    <link rel=\"stylesheet\" href=\"{{ asset('" . $cssPath . "') }}\">
+</head>
+<body>
+
+" . $data['viewScript'] . "
+
+<script src=\"{{ asset('static/" . $jsPath . "') }}\"></script>
+</body>
+</html>";
+
+        File::put(resource_path($data['viewLocation']), $data['viewScript']);
+        File::put($cssPath, $data['cssScript']);
+        File::put($jsPath, $data['jsScript']);
+        Artisan::call('add:appView', [
+            'name' => $data['name'],
+            'component' => 'layout',
+            'location' => $data['appViewLocation']
+        ]);
 
         return $data;
     }

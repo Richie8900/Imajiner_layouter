@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Header;
 use App\Models\Footer;
 use App\Models\Component;
+use App\Models\Layout;
 use Illuminate\Support\Facades\File;
 
 class DataSyncController extends Controller
@@ -34,9 +35,16 @@ class DataSyncController extends Controller
     {
         $data = Footer::find($id);
         if ($data != null) {
-            if (File::exists(resource_path($data['viewLocation']))) {
+            if (File::exists(resource_path($data['viewLocation'])) && File::exists(public_path($data['resourceLocation']))) {
                 $script = File::get(resource_path($data['viewLocation']));
                 $data['viewScript'] = $script;
+
+                $jsScript = File::get(public_path($data['resourceLocation']) . "/" . $data['slug'] . ".js");
+                $data['jsScript'] = $jsScript;
+
+                $cssScript = File::get(public_path($data['resourceLocation']) . "/" . $data['slug'] . ".css");
+                $data['cssScript'] = $cssScript;
+
                 $data->save();
             }
         }
@@ -46,9 +54,35 @@ class DataSyncController extends Controller
     {
         $data = Component::find($id);
         if ($data != null) {
-            if (File::exists(resource_path($data['viewLocation']))) {
+            if (File::exists(resource_path($data['viewLocation'])) && File::exists(public_path($data['resourceLocation']))) {
                 $script = File::get(resource_path($data['viewLocation']));
                 $data['viewScript'] = $script;
+
+                $jsScript = File::get(public_path($data['resourceLocation']) . "/" . $data['slug'] . ".js");
+                $data['jsScript'] = $jsScript;
+
+                $cssScript = File::get(public_path($data['resourceLocation']) . "/" . $data['slug'] . ".css");
+                $data['cssScript'] = $cssScript;
+
+                $data->save();
+            }
+        }
+    }
+
+    public static function syncLayout($id)
+    {
+        $data = Layout::find($id);
+        if ($data != null) {
+            if (File::exists(resource_path($data['viewLocation'])) && File::exists(public_path($data['resourceLocation']))) {
+                $script = File::get(resource_path($data['viewLocation']));
+                $data['viewScript'] = $script;
+
+                $jsScript = File::get(public_path($data['resourceLocation']) . "/" . $data['slug'] . ".js");
+                $data['jsScript'] = $jsScript;
+
+                $cssScript = File::get(public_path($data['resourceLocation']) . "/" . $data['slug'] . ".css");
+                $data['cssScript'] = $cssScript;
+
                 $data->save();
             }
         }

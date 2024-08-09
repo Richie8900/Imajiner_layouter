@@ -35,10 +35,16 @@ class EditLayout extends EditRecord
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        if (File::exists(resource_path($data['Location']))) {
-            $script = File::get(resource_path($data['Location']));
-            $data['Script'] = $script;
-            return $data;
+        if (File::exists(resource_path($data['viewLocation']))) {
+            File::put(resource_path($data['viewLocation']), $data['viewScript']);
+        }
+
+        $cssPath = $data['resourceLocation'] . "/" . $data['slug'] . ".css";
+        $jsPath = $data['resourceLocation'] .  "/" . $data['slug'] . ".js";
+
+        if (File::exists(public_path($data['resourceLocation'])) && File::exists(public_path($cssPath)) && File::exists(public_path($jsPath))) {
+            File::put($cssPath, $data['cssScript']);
+            File::put($jsPath, $data['jsScript']);
         }
 
         return $data;

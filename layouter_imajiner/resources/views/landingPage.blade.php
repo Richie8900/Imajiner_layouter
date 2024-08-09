@@ -7,6 +7,6 @@
     {{-- <title>{{$data}}</title> --}}
 </head>
 <body>
-    <x-header.head/>
+    <x-header.header-one/>
 </body>
 </html>

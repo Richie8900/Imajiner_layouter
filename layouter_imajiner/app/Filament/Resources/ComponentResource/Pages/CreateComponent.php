@@ -22,18 +22,41 @@ class CreateComponent extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        // create tag name n location
-        $data['slug'] = Str::slug($data['ComponentName']);
-        $data['Tag'] = $data['slug'];
-        $data['Location'] = "views/components/component/{$data['slug']}.blade.php";
+        // generate slug
+        $data['slug'] = Str::slug($data['name']);
+        $formattedName = str_replace(' ', '', ucwords($data['name']));
 
-        // artisan make:component
+        // create component files > create resource/views/components/... + app/View/Components/...
         Artisan::call('make:component', [
-            'name' => 'Component/' . $data['ComponentName'],
+            'name' => 'component/' . $formattedName,
         ]);
 
-        // replace existing script
-        File::put(resource_path("views/components/component/{$data['slug']}.blade.php"), $data['Script']);
+        // create component files > create public/static/...-resource
+        Artisan::call('make:static', [
+            'name' => 'component/' . $data['slug'],
+        ]);
+
+        // insert each script into each files
+        $data['viewLocation'] = "views/components/component/{$data['slug']}.blade.php";
+        $data['resourceLocation'] = "static/component/" . $data['slug'] . "-resource";
+        $data['appViewLocation'] = "View/Components/component/" . $formattedName . ".php";
+        $cssPath = $data['resourceLocation'] . "/" . $data['slug'] . ".css";
+        $jsPath = $data['resourceLocation'] .  "/" . $data['slug'] . ".js";
+
+        $data['viewScript'] = "<link rel=\"stylesheet\" href=\"{{ asset('" . $cssPath . "') }}\">
+
+" . $data['viewScript'] . "
+
+<script src=\"{{ asset('static/" . $jsPath . "') }}\"></script>";
+
+        File::put(resource_path($data['viewLocation']), $data['viewScript']);
+        File::put($cssPath, $data['cssScript']);
+        File::put($jsPath, $data['jsScript']);
+        Artisan::call('add:appView', [
+            'name' => $data['name'],
+            'component' => 'component',
+            'location' => $data['appViewLocation']
+        ]);
 
         return $data;
     }

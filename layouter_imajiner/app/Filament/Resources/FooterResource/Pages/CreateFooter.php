@@ -22,18 +22,41 @@ class CreateFooter extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        // create tag name n location
-        $data['slug'] = Str::slug($data['FooterName']);
-        $data['Tag'] = $data['slug'];
-        $data['Location'] = "views/components/component/{$data['slug']}.blade.php";
+        // generate slug
+        $data['slug'] = Str::slug($data['name']);
+        $formattedName = str_replace(' ', '', ucwords($data['name']));
 
-        // artisan make:component
+        // create component files > create resource/views/components/... + app/View/Components/...
         Artisan::call('make:component', [
-            'name' => 'Footer/' . $data['FooterName'],
+            'name' => 'footer/' . $formattedName,
         ]);
 
-        // replace existing script
-        File::put(resource_path("views/components/component/{$data['slug']}.blade.php"), $data['Script']);
+        // create component files > create public/static/...-resource
+        Artisan::call('make:static', [
+            'name' => 'footer/' . $data['slug'],
+        ]);
+
+        // insert each script into each files
+        $data['viewLocation'] = "views/components/footer/{$data['slug']}.blade.php";
+        $data['resourceLocation'] = "static/footer/" . $data['slug'] . "-resource";
+        $data['appViewLocation'] = "View/Components/footer/" . $formattedName . ".php";
+        $cssPath = $data['resourceLocation'] . "/" . $data['slug'] . ".css";
+        $jsPath = $data['resourceLocation'] .  "/" . $data['slug'] . ".js";
+
+        $data['viewScript'] = "<link rel=\"stylesheet\" href=\"{{ asset('" . $cssPath . "') }}\">
+
+" . $data['viewScript'] . "
+
+<script src=\"{{ asset('static/" . $jsPath . "') }}\"></script>";
+
+        File::put(resource_path($data['viewLocation']), $data['viewScript']);
+        File::put($cssPath, $data['cssScript']);
+        File::put($jsPath, $data['jsScript']);
+        Artisan::call('add:appView', [
+            'name' => $data['name'],
+            'component' => 'footer',
+            'location' => $data['appViewLocation']
+        ]);
 
         return $data;
     }
