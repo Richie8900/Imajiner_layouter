@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
+use Illuminate\Support\Str;
+
 class DeleteComponent extends Command
 {
     /**
@@ -12,7 +14,7 @@ class DeleteComponent extends Command
      *
      * @var string
      */
-    protected $signature = 'delete:component {name}';
+    protected $signature = 'delete:component {category} {name}';
 
     /**
      * The console command description.
@@ -27,8 +29,11 @@ class DeleteComponent extends Command
     public function handle()
     {
         $name = $this->argument('name');
-        $viewDirectory = resource_path("views/components/$name.blade.php");
-        $appDirectory = app_path("View/Components/$name.php");
+        $category = $this->argument('category');
+        $formattedName = str_replace(' ', '', $name);
+        $slug = Str::slug($name);
+        $viewDirectory = resource_path("views/components/$category/$slug.blade.php");
+        $appDirectory = app_path("View/Components/$category/$formattedName.php");
 
         // Check if the directory exists
         if (!File::exists($viewDirectory) || !File::exists($appDirectory)) {

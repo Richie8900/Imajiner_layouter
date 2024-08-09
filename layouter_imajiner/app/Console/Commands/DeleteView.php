@@ -13,7 +13,7 @@ class DeleteView extends Command
      *
      * @var string
      */
-    protected $signature = 'delete:view {name} {directory}';
+    protected $signature = 'delete:view {name}';
 
     /**
      * The console command description.
@@ -28,11 +28,11 @@ class DeleteView extends Command
     public function handle()
     {
         $name = $this->argument('name');
-        $dir = $this->argument('directory');
+        // $dir = $this->argument('directory');
         $viewPath = resource_path("views/$name.blade.php");
-        if ($dir != 'view') {
-            $viewPath = resource_path("views/$dir/$name.blade.php");
-        }
+        // if ($dir != 'view') {
+        //     $viewPath = resource_path("views/$dir/$name.blade.php");
+        // }
 
         // Check if the directory exists
         if (!File::exists($viewPath)) {
@@ -40,14 +40,14 @@ class DeleteView extends Command
             return;
         }
 
-        // Delete all files in the directory
-        if ($dir != "view") {
-            $files = File::files($$viewPath);
-            foreach ($files as $file) {
-                File::delete($file);
-                $this->info("The directory $file deleted.");
-            }
-        }
+        // // Delete all files in the directory
+        // if ($dir != "view") {
+        //     $files = File::files($$viewPath);
+        //     foreach ($files as $file) {
+        //         File::delete($file);
+        //         $this->info("The directory $file deleted.");
+        //     }
+        // }
         File::delete($viewPath);
         $this->info("The view component $name has been deleted successfully.");
     }

@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+use Illuminate\Support\Facades\Artisan;
+
 class Header extends Model
 {
     use HasFactory;
@@ -27,4 +29,20 @@ class Header extends Model
     protected $casts = [
         'content' => 'array'
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function ($record) {
+            // Custom logic after deletion
+            Artisan::call('delete:component', [
+                'category' => 'header',
+                'name' => $record->name,
+            ]);
+            Artisan::call('delete:static', [
+                'name' => 'header/' . $record->slug,
+            ]);
+        });
+    }
 }

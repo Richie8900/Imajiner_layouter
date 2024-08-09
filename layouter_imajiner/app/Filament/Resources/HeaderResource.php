@@ -85,37 +85,12 @@ class HeaderResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()
-                    ->before(function ($record, Tables\Actions\DeleteAction $action) {
-                        // Check if the Header record is referenced by any Page record
-                        $isReferenced = PagesModel::where('HeaderId', $record->id)->exists();
-
-                        if ($isReferenced) {
-                            // Use Filament's notification system to display an error message
-                            Notification::make()
-                                ->title('Deletion Failed')
-                                ->danger()
-                                ->body('This header is referenced in the Pages table and cannot be deleted.')
-                                ->send();
-
-                            // Prevent the deletion from proceeding
-                            $action->cancel();
-                        }
-                    })
-                    ->after(function ($record, $action) {
-                        // Deletes the component files using artisan command
-                        Artisan::call('delete:component', [
-                            'name' => 'header/' . $record->slug,
-                        ]);
-                        Artisan::call('delete:static', [
-                            'name' => 'header/' . $record->slug,
-                        ]);
-                    }),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                // Tables\Actions\BulkActionGroup::make([
+                //     Tables\Actions\DeleteBulkAction::make(),
+                // ]),
             ]);
     }
 
