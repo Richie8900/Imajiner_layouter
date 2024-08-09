@@ -41,10 +41,12 @@ Route::get('/componentPreview/{category}/{id}', function ($category, $id) {
 });
 
 Route::get('/test', function () {
-    $data = Pages::where('route', 'testing')->get();
-    // $data = Pages::all();
-    dd(count($data));
-    return view('landingPage', ['data' => $data[0]]);
+    // $data = Pages::where('route', 'testing')->get();
+    // // $data = Pages::all();
+    // dd(count($data));
+    // return view('landingPage', ['data' => $data[0]]);
+    // return view('components.header.header_one');
+    return view('landingPage');
 });
 
 Route::get('/{slug}', [RouteController::class, 'getStaticRoute']);

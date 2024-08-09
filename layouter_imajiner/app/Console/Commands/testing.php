@@ -15,7 +15,7 @@ class testing extends Command
      *
      * @var string
      */
-    protected $signature = 'app:testing {name}';
+    protected $signature = 'app:testing';
 
     /**
      * The console command description.
@@ -29,11 +29,25 @@ class testing extends Command
      */
     public function handle()
     {
-        // $name = $this->argument('name');
-        // $model = 'App\Models\\' . $name;
-        // $this->info($model::all());
+        $jsonString = '[{"title":"1","description":"2"},{"title":"ss","description":"sdsds"}]';
+        $dataArray = json_decode($jsonString, true); // true for associative array
+        // This assumes $dataArray is already an array of associative arrays
+        $dataArray = [
+            ["title" => "1", "description" => "2"],
+            ["title" => "ss", "description" => "sdsds"]
+        ];
 
-        $page = Models\Pages::where('route', 'a')->get();
-        $this->info(count($page));
+        $formattedArray = [];
+
+        foreach ($dataArray as $item) {
+            // Use the 'title' as the key and 'description' as the value
+            $formattedArray[$item['title']] = $item['description'];
+        }
+
+        // Print the result
+        // print_r($formattedArray);
+
+
+        $this->info($formattedArray['1'] . $formattedArray['ss']);
     }
 }

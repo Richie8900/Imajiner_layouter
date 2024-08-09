@@ -23,11 +23,20 @@ class CreateHeader extends CreateRecord
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         // generate slug
-        $data['slug'] = str_replace('-', '_', Str::slug($data['name']));
+        $data['slug'] = Str::slug($data['name']);
+        $formattedName = str_replace(' ', '', $data['name']);
+
+        // reformat content
+        $formattedContent = [];
+        foreach ($data['content'] as $item) {
+            // Use the 'title' as the key and 'description' as the value
+            $formattedContent[$item['title']] = $item['description'];
+        }
+        $data['content'] = $formattedContent;
 
         // create component files > create resource/views/components/... + app/View/Components/...
         Artisan::call('make:component', [
-            'name' => 'header/' . $data['slug'],
+            'name' => 'header/' . $formattedName,
         ]);
 
         // create component files > create public/static/...-resource
@@ -38,26 +47,25 @@ class CreateHeader extends CreateRecord
         // insert each script into each files
         $data['viewLocation'] = "views/components/header/{$data['slug']}.blade.php";
         $data['resourceLocation'] = "static/header/" . $data['slug'] . "-resource";
-        $data['appViewLocation'] = "View/Header/" . $data['slug'] . ".php";
+        $data['appViewLocation'] = "View/Components/header/" . $formattedName . ".php";
         $cssPath = $data['resourceLocation'] . "/" . $data['slug'] . ".css";
         $jsPath = $data['resourceLocation'] .  "/" . $data['slug'] . ".js";
 
-        $data['viewScript'] = "
-        <link rel=\"stylesheet\" href=\"{{ asset('" . $cssPath . "') }}\">
+        $data['viewScript'] = "<link rel=\"stylesheet\" href=\"{{ asset('" . $cssPath . "') }}\">
 
-    " . $data['viewScript'] . "
+" . $data['viewScript'] . "
 
-    <script src=\"{{ asset('static/" . $jsPath . "') }}\"></script>
-    ";
-
-        $appViewScript = "
-        
-        ";
+<script src=\"{{ asset('static/" . $jsPath . "') }}\"></script>";
 
         File::put(resource_path($data['viewLocation']), $data['viewScript']);
         File::put($cssPath, $data['cssScript']);
         File::put($jsPath, $data['jsScript']);
-        File::put(app_path($data['appViewLocation']), $appViewScript);
+        Artisan::call('add:appView', [
+            'name' => $data['name'],
+            'component' => 'header',
+            'location' => $data['appViewLocation']
+        ]);
+        // php artisan add:appView "Header One" header View/Components/header/HeaderOne.php data1 data2 data3
 
         return $data;
     }
