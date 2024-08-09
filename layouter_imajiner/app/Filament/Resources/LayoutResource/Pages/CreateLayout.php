@@ -55,6 +55,8 @@ class CreateLayout extends CreateRecord
 </head>
 <body>
 
+{{ " . '$slot' . " }}
+
 " . $data['viewScript'] . "
 
 <script src=\"{{ asset('static/" . $jsPath . "') }}\"></script>

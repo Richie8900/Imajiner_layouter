@@ -30,6 +30,11 @@ class Layout extends Model
         'content' => 'array'
     ];
 
+    public function pages(): BelongsTo
+    {
+        return $this->BelongsTo(Layout::class);
+    }
+
     public static function boot()
     {
         parent::boot();

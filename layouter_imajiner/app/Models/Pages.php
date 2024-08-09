@@ -10,6 +10,8 @@ use App\Models\Layout;
 use App\Models\Header;
 use App\Models\Footer;
 
+use Illuminate\Support\Facades\Artisan;
+
 class Pages extends Model
 {
     use HasFactory;
@@ -25,10 +27,43 @@ class Pages extends Model
         'tag',
         'viewLocation',
         'resourceLocation',
-        'content'
+        'content',
+        'layoutId',
+        'headerId',
+        'footerId'
     ];
 
     protected $casts = [
         'content' => 'array'
     ];
+
+    public function layouts(): HasOne
+    {
+        return $this->hasOne(Layout::class);
+    }
+
+    public function headers(): HasOne
+    {
+        return $this->hasOne(Header::class);
+    }
+
+    public function footers(): HasOne
+    {
+        return $this->hasOne(Footer::class);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function ($record) {
+            // Custom logic after deletion
+            Artisan::call('delete:view', [
+                'name' => $record->slug,
+            ]);
+            Artisan::call('delete:static', [
+                'name' => $record->slug,
+            ]);
+        });
+    }
 }

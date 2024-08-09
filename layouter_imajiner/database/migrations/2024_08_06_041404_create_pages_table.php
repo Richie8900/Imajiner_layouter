@@ -26,6 +26,13 @@ return new class extends Migration
             $table->string('viewLocation');
             $table->string('resourceLocation');
 
+            $table->unsignedBigInteger('layoutId')->nullable();
+            $table->unsignedBigInteger('headerId')->nullable();
+            $table->unsignedBigInteger('footerId')->nullable();
+            $table->foreign('layoutId')->references('id')->on('layouts');
+            $table->foreign('headerId')->references('id')->on('headers');
+            $table->foreign('footerId')->references('id')->on('footers');
+
             $table->longText('content')->nullable();
             $table->timestamps();
         });

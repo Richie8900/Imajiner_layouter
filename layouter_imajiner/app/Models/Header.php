@@ -30,6 +30,11 @@ class Header extends Model
         'content' => 'array'
     ];
 
+    public function pages(): BelongsTo
+    {
+        return $this->BelongsTo(Header::class);
+    }
+
     public static function boot()
     {
         parent::boot();

@@ -6,21 +6,21 @@ use Illuminate\Console\Command;
 
 use Illuminate\Support\Facades\File;
 
-class DeleteView extends Command
+class DeletePostView extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'delete:view {name}';
+    protected $signature = 'app:delete-post-view';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Used to delete view file';
+    protected $description = 'Command description';
 
     /**
      * Execute the console command.
@@ -28,7 +28,11 @@ class DeleteView extends Command
     public function handle()
     {
         $name = $this->argument('name');
+        // $dir = $this->argument('directory');
         $viewPath = resource_path("views/$name.blade.php");
+        // if ($dir != 'view') {
+        //     $viewPath = resource_path("views/$dir/$name.blade.php");
+        // }
 
         // Check if the directory exists
         if (!File::exists($viewPath)) {
@@ -36,6 +40,14 @@ class DeleteView extends Command
             return;
         }
 
+        // // Delete all files in the directory
+        // if ($dir != "view") {
+        //     $files = File::files($$viewPath);
+        //     foreach ($files as $file) {
+        //         File::delete($file);
+        //         $this->info("The directory $file deleted.");
+        //     }
+        // }
         File::delete($viewPath);
         $this->info("The view component $name has been deleted successfully.");
     }

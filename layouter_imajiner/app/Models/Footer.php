@@ -30,6 +30,11 @@ class Footer extends Model
         'content' => 'array'
     ];
 
+    public function pages(): BelongsTo
+    {
+        return $this->BelongsTo(Footer::class);
+    }
+
     public static function boot()
     {
         parent::boot();
