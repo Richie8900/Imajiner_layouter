@@ -32,11 +32,16 @@ class HeaderResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label('Header name')
+                    ->label('Header Name')
                     ->required()
-                    ->disabledOn('edit'),
+                    ->readOnlyOn('edit'),
+                Forms\Components\TextInput::make('slug')
+                    ->label('slug')
+                    ->readOnlyOn('edit')
+                    ->hiddenOn('create'),
                 Forms\Components\TextInput::make('description')
-                    ->label('Description'),
+                    ->label('Description')
+                    ->columnSpanFull(),
                 Repeater::make('content')
                     ->label('Content')
                     ->schema([
@@ -53,13 +58,16 @@ class HeaderResource extends Resource
                 Forms\Components\TextArea::make('cssScript')
                     ->label('Css Script')
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('Location')
-                    ->label('Location')
-                    ->required()
+                Forms\Components\TextInput::make('viewLocation')
+                    ->label('View Location')
+                    ->readOnlyOn('edit')
+                    ->hiddenOn('create'),
+                Forms\Components\TextInput::make('resourceLocation')
+                    ->label('Resource Location')
                     ->readOnlyOn('edit')
                     ->hiddenOn('create'),
                 Forms\Components\Actions::make([
-                    Forms\Components\Actions\Action::make('Preview Header')
+                    Forms\Components\Actions\Action::make('Preview edit from Script')
                         ->action('redirectToPreview')
                 ])
                     ->hiddenOn('create'),
@@ -87,11 +95,7 @@ class HeaderResource extends Resource
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
-            ->bulkActions([
-                // Tables\Actions\BulkActionGroup::make([
-                //     Tables\Actions\DeleteBulkAction::make(),
-                // ]),
-            ]);
+            ->bulkActions([]);
     }
 
     public static function getRelations(): array

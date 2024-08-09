@@ -39,7 +39,6 @@ class EditHeader extends EditRecord
             File::put(resource_path($data['viewLocation']), $data['viewScript']);
         }
 
-        $data['resourceLocation'] = "static/header/" . $data['slug'] . "-resource";
         $cssPath = $data['resourceLocation'] . "/" . $data['slug'] . ".css";
         $jsPath = $data['resourceLocation'] .  "/" . $data['slug'] . ".js";
 
