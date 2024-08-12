@@ -35,6 +35,11 @@ class Header extends Model
         return $this->BelongsTo(Header::class);
     }
 
+    public function postCategory(): BelongsTo
+    {
+        return $this->BelongsTo(Header::class);
+    }
+
     public static function boot()
     {
         parent::boot();

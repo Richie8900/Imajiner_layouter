@@ -35,6 +35,11 @@ class Footer extends Model
         return $this->BelongsTo(Footer::class);
     }
 
+    public function postCategory(): BelongsTo
+    {
+        return $this->BelongsTo(Footer::class);
+    }
+
     public static function boot()
     {
         parent::boot();

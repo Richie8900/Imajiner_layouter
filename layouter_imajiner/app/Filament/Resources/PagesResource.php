@@ -44,7 +44,8 @@ class PagesResource extends Resource
                     ->label('Route')
                     ->required()
                     ->prefix('http://layouter/')
-                    ->readOnlyOn('edit'),
+                // ->readOnlyOn('edit'),
+                ,
                 Forms\Components\TextInput::make('description')
                     ->label('Description'),
                 Select::make('layoutId')
