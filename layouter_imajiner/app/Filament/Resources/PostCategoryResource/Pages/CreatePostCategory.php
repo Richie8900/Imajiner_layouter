@@ -32,6 +32,7 @@ class CreatePostCategory extends CreateRecord
         //         // create tag name n location
         // $data['slug'] = Str::slug($data['name']);
         $formattedName = str_replace(' ', '', ucwords($data['name']));
+        // -> Post_AsdAsd -> PostAsdAsd
 
         //         // create view, javascript, and css using artisan
         //         Artisan::call('make:view', [
@@ -77,7 +78,8 @@ class CreatePostCategory extends CreateRecord
         //         File::put(resource_path($data['viewLocation']), $data['viewScript']);
 
         // generate Code
-        $data['code'] = 'Post_' . $formattedName;
+        $data['code'] = 'Post' . $formattedName;
+        $formatName = str_replace(' ', '', ucwords(str_replace('_', ' ', $data['code'])));
 
         // create model
         Artisan::call('configure:model', [

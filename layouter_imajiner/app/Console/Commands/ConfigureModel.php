@@ -109,6 +109,6 @@ return new class extends Migration
 
         Artisan::call('migrate');
 
-        $this->info('Model configuration successful');
+        $this->info('Model configuration successful, BOOT IS NOT IMPLEMENTED YET');
     }
 }
