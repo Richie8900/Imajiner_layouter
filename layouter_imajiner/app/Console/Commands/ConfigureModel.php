@@ -107,6 +107,8 @@ return new class extends Migration
         File::put($modelPath, $modelScript);
         File::put($migrationPath, $migrationScript);
 
+        Artisan::call('migrate');
+
         $this->info('Model configuration successful');
     }
 }
