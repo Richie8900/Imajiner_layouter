@@ -36,13 +36,17 @@ class PagesResource extends Resource
                     ->label('Page Name')
                     ->required()
                     ->readOnlyOn('edit'),
+                Forms\Components\TextInput::make('slug')
+                    ->label('Slug')
+                    ->readOnlyOn('edit')
+                    ->hiddenOn('create'),
                 Forms\Components\TextInput::make('route')
                     ->label('Route')
                     ->required()
+                    ->prefix('http://layouter/')
                     ->readOnlyOn('edit'),
                 Forms\Components\TextInput::make('description')
-                    ->label('Description')
-                    ->columnSpanFull(),
+                    ->label('Description'),
                 Select::make('layoutId')
                     ->label('Select Layout')
                     ->relationship('layouts', 'name')
@@ -85,11 +89,6 @@ class PagesResource extends Resource
                 Forms\Components\TextInput::make('resourceLocation')
                     ->label('Resource Location')
                     ->readOnlyOn('edit')
-                    ->hiddenOn('create'),
-                Forms\Components\Actions::make([
-                    Forms\Components\Actions\Action::make('Preview edit from Script')
-                        ->action('redirectToPreview')
-                ])
                     ->hiddenOn('create'),
             ]);
     }
