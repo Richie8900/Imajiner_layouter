@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\PagesResource\Pages;
 
 use App\Filament\Resources\PagesResource;
+use App\Models\Pages;
 use Exception;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
@@ -40,6 +41,9 @@ class EditPages extends EditRecord
             File::put($cssPath, $data['cssScript']);
             File::put($jsPath, $data['jsScript']);
         }
+
+        // $pages = Pages::all();
+        // dd($pages[count($pages) - 1]->id);
 
         return $data;
     }

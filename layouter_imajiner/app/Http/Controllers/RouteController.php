@@ -18,7 +18,18 @@ class RouteController extends Controller
             abort(404);
         }
 
-        return view($page[0]['slug'], ['data' => $page[0]]);
+        $page = $page[0];
+        $content = $page->content;
+
+        // reformat content
+        $formattedContent = [];
+        foreach ($content as $item) {
+            $formattedContent[$item['title']] = $item['description'];
+        }
+
+        $content = $formattedContent;
+
+        return view($page->slug, ['data' => $page, 'content' => $content]);
     }
 
     public function getDynamicRoute(string $category, string $title): view
