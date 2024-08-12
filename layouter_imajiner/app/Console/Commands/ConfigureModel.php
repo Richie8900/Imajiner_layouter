@@ -37,7 +37,7 @@ class ConfigureModel extends Command
         ]);
 
         // assigns and checks path
-        $modelPath = app_path('Models/' . $code);
+        $modelPath = app_path('Models/' . $code . ".php");
         if (!File::exists($modelPath)) {
             $this->error("Model does not exist: " . $modelPath);
         }
@@ -107,6 +107,6 @@ return new class extends Migration
         File::put($modelPath, $modelScript);
         File::put($migrationPath, $migrationScript);
 
-        $this->info($migrationPath);
+        $this->info('Model configuration successful');
     }
 }

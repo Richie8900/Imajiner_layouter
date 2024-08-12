@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\File;
 
 use Illuminate\Support\Facades\DB;
 use App\Models;
+use App\Models\Post_ModelAsd;
 
 class testing extends Command
 {
@@ -29,25 +30,6 @@ class testing extends Command
      */
     public function handle()
     {
-        $jsonString = '[{"title":"1","description":"2"},{"title":"ss","description":"sdsds"}]';
-        $dataArray = json_decode($jsonString, true); // true for associative array
-        // This assumes $dataArray is already an array of associative arrays
-        $dataArray = [
-            ["title" => "1", "description" => "2"],
-            ["title" => "ss", "description" => "sdsds"]
-        ];
-
-        $formattedArray = [];
-
-        foreach ($dataArray as $item) {
-            // Use the 'title' as the key and 'description' as the value
-            $formattedArray[$item['title']] = $item['description'];
-        }
-
-        // Print the result
-        // print_r($formattedArray);
-
-
-        $this->info($formattedArray['1'] . $formattedArray['ss']);
+        // $this->info(Post_ModelAsd::all());
     }
 }
