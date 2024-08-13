@@ -1,9 +1,5 @@
 <link rel="stylesheet" href="{{ asset('static/footer/flowbite-footer-resource/flowbite-footer.css') }}">
 
-<link rel="stylesheet" href="{{ asset('static/footer/flowbite-footer-resource/flowbite-footer.css') }}">
-
-
-
 <footer class="bg-white rounded-lg shadow m-4 dark:bg-gray-800">
     <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
       <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="https://flowbite.com/" class="hover:underline">Flowbite™</a>. All Rights Reserved.
@@ -24,8 +20,5 @@
     </ul>
     </div>
 </footer>
-
-
-<script src="{{ asset('static/static/footer/flowbite-footer-resource/flowbite-footer.js') }}"></script>
 
 <script src="{{ asset('static/static/footer/flowbite-footer-resource/flowbite-footer.js') }}"></script>
