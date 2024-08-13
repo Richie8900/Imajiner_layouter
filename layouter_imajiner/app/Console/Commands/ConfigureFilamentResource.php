@@ -59,7 +59,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Repeater;
 use Filament\Tables\Columns\TextColumn;
 
-class PostResource extends Resource
+class " . $code . " extends Resource
 {
     protected static ?string \$model = " . $code . "::class;
 
