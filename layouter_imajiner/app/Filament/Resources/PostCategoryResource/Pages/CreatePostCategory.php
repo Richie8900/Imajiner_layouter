@@ -78,7 +78,10 @@ $layoutTagClose";
 
         // generate Code
         $data['code'] = 'Post' . $formattedName;
-        $formatName = str_replace(' ', '', ucwords(str_replace('_', ' ', $data['code'])));
+        $data['code'] = str_replace(' ', '', ucwords(str_replace('_', ' ', $data['code'])));
+        if (!Str::endsWith($data['code'], 's') && !Str::endsWith($data['code'], 'S')) {
+            $data['code'] = $data['code'] . 's';
+        }
 
         // create model
         Artisan::call('configure:model', [

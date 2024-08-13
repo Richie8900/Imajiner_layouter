@@ -18,11 +18,11 @@ return new class extends Migration
             $table->string('code');
 
             $table->string('route');
-
             $table->string('description')->nullable();
-            $table->string('viewScript')->nullable();
-            $table->string('jsScript')->nullable();
-            $table->string('cssScript')->nullable();
+
+            $table->longText('viewScript')->nullable();
+            $table->longText('jsScript')->nullable();
+            $table->longText('cssScript')->nullable();
 
             $table->string('viewLocation');
             $table->string('resourceLocation');
