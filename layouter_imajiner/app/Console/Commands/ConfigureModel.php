@@ -64,6 +64,7 @@ class " . $code . " extends Model
 
     protected " . '$fillable' . " = [
         'title',
+        'slug',
         'content',
     ];
 

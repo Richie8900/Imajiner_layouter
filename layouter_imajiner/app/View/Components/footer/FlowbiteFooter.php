@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components\header;
+namespace App\View\Components\footer;
 
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -17,7 +17,7 @@ class FlowbiteFooter extends Component
      */
     public function __construct()
     {
-        $this->record = Footer::where('slug', 'flowbite-footer')->get()[0]; 
+        $this->record = Footer::where('slug', 'flowbite-footer')->get()[0];
         $this->content = $this->record['content'];
         // reformat content
         $formattedContent = [];

@@ -42,9 +42,6 @@ class EditPages extends EditRecord
             File::put($jsPath, $data['jsScript']);
         }
 
-        // $pages = Pages::all();
-        // dd($pages[count($pages) - 1]->id);
-
         return $data;
     }
 }

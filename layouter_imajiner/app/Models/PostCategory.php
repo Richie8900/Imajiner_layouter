@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Artisan;
 
 class PostCategory extends Model
 {
@@ -22,10 +23,11 @@ class PostCategory extends Model
         'cssScript',
         'viewLocation',
         'resourceLocation',
+        'migrationPath',
         'content',
         'layoutId',
         'headerId',
-        'footerId'
+        'footerId',
     ];
 
     public function layouts(): HasOne
@@ -41,5 +43,27 @@ class PostCategory extends Model
     public function footers(): HasOne
     {
         return $this->hasOne(Footer::class);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function ($record) {
+            // Custom logic after deletion
+            Artisan::call('delete:view', [
+                'name' => $record->slug,
+            ]);
+            Artisan::call('delete:static', [
+                'name' => $record->slug,
+            ]);
+            Artisan::call('delete:database', [
+                'name' => $record->code,
+                'path' => $record->migrationPath
+            ]);
+            Artisan::call('delete:filament-resource', [
+                'name' => $record->code
+            ]);
+        });
     }
 }

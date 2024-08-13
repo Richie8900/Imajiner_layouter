@@ -39,11 +39,11 @@ class CreatePostCategory extends CreateRecord
         ]);
 
         Artisan::call('make:static', [
-            'name' => 'postCategory/' . $data['slug'] . '-view/' . $data['slug'],
+            'name' => 'postCategory/' . $data['slug'],
         ]);
 
         $data['viewLocation'] = "views/postCategory/" . $data['slug'] . '-view/' . $data['slug'] . ".blade.php";
-        $data['resourceLocation'] = "static/postCategory/" . $data['slug'] . '-view/' . $data['slug'] . "-resource";
+        $data['resourceLocation'] = "static/postCategory/" . $data['slug'] . "-resource";
         $cssPath = $data['resourceLocation'] . "/" . $data['slug'] . ".css";
         $jsPath = $data['resourceLocation'] .  "/" . $data['slug'] . ".js";
 
@@ -78,7 +78,7 @@ $layoutTagClose";
 
         // generate Code
         $data['code'] = 'Post' . $formattedName;
-        $data['code'] = str_replace(' ', '', ucwords(str_replace('_', ' ', $data['code'])));
+        $data['code'] = Str::lower(str_replace(' ', '', ucwords(str_replace('_', ' ', $data['code']))));
         if (!Str::endsWith($data['code'], 's') && !Str::endsWith($data['code'], 'S')) {
             $data['code'] = $data['code'] . 's';
         }
@@ -87,6 +87,11 @@ $layoutTagClose";
         Artisan::call('configure:model', [
             'name' => $data['code']
         ]);
+
+        $migrationPath = database_path('migrations/');
+        $files = File::files($migrationPath);
+        $data['migrationPath'] = $files[count($files) - 1];
+        $data['migrationPath'] = 'migrations/' . $data['migrationPath']->getRelativePathname();
 
         // create filament resource
         Artisan::call('configure:filament', [

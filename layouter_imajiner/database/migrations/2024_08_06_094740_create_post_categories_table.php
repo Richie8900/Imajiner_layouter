@@ -26,6 +26,7 @@ return new class extends Migration
 
             $table->string('viewLocation');
             $table->string('resourceLocation');
+            $table->string('migrationPath');
 
             $table->unsignedBigInteger('layoutId')->nullable();
             $table->unsignedBigInteger('headerId')->nullable();

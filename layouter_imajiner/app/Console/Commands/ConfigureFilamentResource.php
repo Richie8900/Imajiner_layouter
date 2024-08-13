@@ -73,7 +73,13 @@ class " . $code . "Resource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('title')
                     ->label('Title')
-                    ->required(),
+                    ->required()
+                    ->readOnlyOn('edit'),
+                Forms\Components\TextInput::make('slug')
+                    ->label('Slug')
+                    ->required()
+                    ->readOnlyOn('edit')
+                    ->hiddenOn('create'),
                 Repeater::make('content')
                     ->label('Content')
                     ->schema([
@@ -122,8 +128,37 @@ class " . $code . "Resource extends Resource
     }
 }";
 
+        $cScript = "<?php
+
+namespace App\Filament\Resources\\" . $code . "Resource\Pages;
+
+use App\Filament\Resources\\" . $code . "Resource;
+use Filament\Actions;
+use Filament\Resources\Pages\CreateRecord;
+
+use Illuminate\Support\Str;
+
+class Create" . $code . " extends CreateRecord
+{
+    protected static string \$resource = " . $code . "Resource::class;
+
+    // redirect to index page
+    protected function getRedirectUrl(): string
+    {
+        return \$this->getResource()::getUrl('index');
+    }
+
+    protected function mutateFormDataBeforeCreate(array \$data): array
+    {
+        \$data['slug'] = Str::slug(\$data['title']);
+
+        return \$data;
+    }
+}";
+
         // replace script
         File::put($resourcePath, $resourceScript);
+        File::put($cPath, $cScript);
 
         $this->info($code);
     }

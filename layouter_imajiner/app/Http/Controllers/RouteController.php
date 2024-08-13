@@ -40,13 +40,23 @@ class RouteController extends Controller
             abort(404);
         }
 
-        $postClass = 'App\Models\\' . $category[0]['slug'];
-        $post = $postClass::where('title', $title)->get();
-
+        $postClass = 'App\Models\\' . $category[0]['code'];
+        $post = $postClass::where('slug', $title)->get();
         if (count($post) == 0) {
             abort(404);
         }
 
-        return view("{$category[0]['slug']}/{$post[0]['slug']}", ['data' => $post[0]]);
+        $post = $post[0];
+        $content = $post->content;
+
+        // reformat content
+        $formattedContent = [];
+        foreach ($content as $item) {
+            $formattedContent[$item['title']] = $item['description'];
+        }
+
+        $content = $formattedContent;
+
+        return view("PostCategory/{$category[0]['slug']}-view/{$category[0]['slug']}", ['data' => $post, 'content' => $content],);
     }
 }

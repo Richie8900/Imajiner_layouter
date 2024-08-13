@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components\header;
+namespace App\View\Components\layout;
 
 use Closure;
 use Illuminate\Contracts\View\View;
@@ -17,7 +17,7 @@ class DefaultLayout extends Component
      */
     public function __construct()
     {
-        $this->record = Layout::where('slug', 'default-layout')->get()[0]; 
+        $this->record = Layout::where('slug', 'default-layout')->get()[0];
         $this->content = $this->record['content'];
         // reformat content
         $formattedContent = [];

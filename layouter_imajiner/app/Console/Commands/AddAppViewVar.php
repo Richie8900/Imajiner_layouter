@@ -48,7 +48,7 @@ class AddAppViewVar extends Command
 
         $script = "<?php
 
-namespace App\View\Components\header;
+namespace App\View\Components\\$component;
 
 use Closure;
 use Illuminate\Contracts\View\View;

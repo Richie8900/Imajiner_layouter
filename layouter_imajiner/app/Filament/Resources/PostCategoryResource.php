@@ -87,8 +87,11 @@ class PostCategoryResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('title')
-                    ->label("Title")
+                TextColumn::make('name')
+                    ->label("Categories")
+                    ->sortable(),
+                TextColumn::make('code')
+                    ->label("Table Name")
                     ->sortable(),
             ])
             ->filters([
