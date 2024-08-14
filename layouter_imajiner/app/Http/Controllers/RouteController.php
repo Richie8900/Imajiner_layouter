@@ -57,6 +57,6 @@ class RouteController extends Controller
 
         $content = $formattedContent;
 
-        return view("PostCategory/{$category[0]['slug']}-view/{$category[0]['slug']}", ['data' => $post, 'content' => $content],);
+        return view("PostCategory/{$category[0]['slug']}", ['data' => $post, 'content' => $content],);
     }
 }
