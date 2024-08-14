@@ -28,7 +28,7 @@ class DeleteView extends Command
     public function handle()
     {
         $name = $this->argument('name');
-        $viewPath = resource_path("views/$name.blade.php");
+        $viewPath = resource_path($this->argument('path'));
 
         // Check if the directory exists
         if (!File::exists($viewPath)) {

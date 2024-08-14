@@ -14,7 +14,7 @@ class ConfigureFilamentResource extends Command
      *
      * @var string
      */
-    protected $signature = 'configure:filament {name}';
+    protected $signature = 'configure:filament {name} {code}';
 
     /**
      * The console command description.
@@ -28,7 +28,8 @@ class ConfigureFilamentResource extends Command
      */
     public function handle()
     {
-        $code = $this->argument('name');
+        $code = $this->argument('code');
+        $name = $this->argument('name');
 
         // make model and migration file
         Artisan::call('make:filament-resource', [
@@ -65,7 +66,8 @@ class " . $code . "Resource extends Resource
 
     protected static ?string \$navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string \$navigationGroup = 'Categories';
+    protected static ?string \$navigationGroup = '" . $name . "';
+    protected static ?string \$navigationGroup = 'Post Categories';
 
     public static function form(Form \$form): Form
     {

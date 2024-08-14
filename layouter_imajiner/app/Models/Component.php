@@ -40,7 +40,8 @@ class Component extends Model
                 'name' => $record->name,
             ]);
             Artisan::call('delete:static', [
-                'name' => 'component/' . $record->slug,
+                'name' => $record->slug,
+                'path' => $record->resourceLocation
             ]);
         });
     }

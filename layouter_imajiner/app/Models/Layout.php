@@ -47,11 +47,12 @@ class Layout extends Model
         static::deleted(function ($record) {
             // Custom logic after deletion
             Artisan::call('delete:component', [
-                'category' => 'layout',
+                'category' => 'component',
                 'name' => $record->name,
             ]);
             Artisan::call('delete:static', [
-                'name' => 'layout/' . $record->slug,
+                'name' => $record->slug,
+                'path' => $record->resourceLocation
             ]);
         });
     }

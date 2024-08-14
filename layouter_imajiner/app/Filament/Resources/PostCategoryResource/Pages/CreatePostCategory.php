@@ -95,7 +95,8 @@ $layoutTagClose";
 
         // create filament resource
         Artisan::call('configure:filament', [
-            'name' => $data['code']
+            'name' => $data['name'],
+            'code' => $data['code'],
         ]);
 
         return $data;
