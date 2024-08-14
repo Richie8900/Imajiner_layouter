@@ -66,7 +66,7 @@ class " . $code . "Resource extends Resource
 
     protected static ?string \$navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string \$navigationGroup = '" . $name . "';
+    protected static ?string \$navigationLabel  = '" . $name . "';
     protected static ?string \$navigationGroup = 'Post Categories';
 
     public static function form(Form \$form): Form

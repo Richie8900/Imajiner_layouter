@@ -60,7 +60,7 @@ class Pages extends Model
             // Custom logic after deletion
             Artisan::call('delete:view', [
                 'name' => $record->slug,
-                'path' => $record->resourceLocation
+                'path' => $record->viewLocation
             ]);
             Artisan::call('delete:static', [
                 'name' => $record->slug,

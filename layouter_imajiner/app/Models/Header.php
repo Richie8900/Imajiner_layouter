@@ -47,7 +47,7 @@ class Header extends Model
         static::deleted(function ($record) {
             // Custom logic after deletion
             Artisan::call('delete:component', [
-                'category' => 'component',
+                'category' => 'header',
                 'name' => $record->name,
             ]);
             Artisan::call('delete:static', [

@@ -47,7 +47,7 @@ class Footer extends Model
         static::deleted(function ($record) {
             // Custom logic after deletion
             Artisan::call('delete:component', [
-                'category' => 'component',
+                'category' => 'footer',
                 'name' => $record->name,
             ]);
             Artisan::call('delete:static', [

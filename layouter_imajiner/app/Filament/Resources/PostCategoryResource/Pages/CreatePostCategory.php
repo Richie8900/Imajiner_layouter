@@ -35,14 +35,14 @@ class CreatePostCategory extends CreateRecord
 
         // create view, javascript, and css using artisan
         Artisan::call('make:view', [
-            'name' => 'postCategory/' . $data['slug'] . '-view/' . $data['slug'],
+            'name' => 'postCategory/' . $data['slug'],
         ]);
 
         Artisan::call('make:static', [
             'name' => 'postCategory/' . $data['slug'],
         ]);
 
-        $data['viewLocation'] = "views/postCategory/" . $data['slug'] . '-view/' . $data['slug'] . ".blade.php";
+        $data['viewLocation'] = "views/postCategory/" . $data['slug'] . ".blade.php";
         $data['resourceLocation'] = "static/postCategory/" . $data['slug'] . "-resource";
         $cssPath = $data['resourceLocation'] . "/" . $data['slug'] . ".css";
         $jsPath = $data['resourceLocation'] .  "/" . $data['slug'] . ".js";

@@ -57,7 +57,7 @@ class PostCategory extends Model
             ]);
             Artisan::call('delete:static', [
                 'name' => $record->slug,
-                'path' => $record->viewLocation,
+                'path' => $record->resourceLocation,
             ]);
             Artisan::call('delete:database', [
                 'name' => $record->code,
