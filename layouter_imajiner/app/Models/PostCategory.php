@@ -52,10 +52,10 @@ class PostCategory extends Model
         static::deleted(function ($record) {
             // Custom logic after deletion
             Artisan::call('delete:view', [
-                'name' => $record->slug,
+                'name' => $record->viewLocation,
             ]);
             Artisan::call('delete:static', [
-                'name' => $record->slug,
+                'name' => $record->resourceLocation,
             ]);
             Artisan::call('delete:database', [
                 'name' => $record->code,
