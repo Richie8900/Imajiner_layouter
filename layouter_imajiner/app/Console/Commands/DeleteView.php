@@ -13,7 +13,7 @@ class DeleteView extends Command
      *
      * @var string
      */
-    protected $signature = 'delete:view {name}';
+    protected $signature = 'delete:view {name} {path}';
 
     /**
      * The console command description.

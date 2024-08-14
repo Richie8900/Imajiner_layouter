@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class DeleteFilamentResource extends Command
 {
@@ -20,7 +21,7 @@ class DeleteFilamentResource extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Used to delete filament resource files';
 
     /**
      * Execute the console command.
@@ -28,14 +29,15 @@ class DeleteFilamentResource extends Command
     public function handle()
     {
         $name = $this->argument('name');
+        $name = Str::ucfirst($name);
         $resourcePath = app_path('Filament/Resources/' . $name . 'Resource.php');
         $resourceCrudPath = app_path('Filament/Resources/' . $name . 'Resource/Pages');
         // check if path exists
-        if (!File::exist($resourcePath)) {
+        if (!File::exists($resourcePath)) {
             $this->error('Resource file does not exist');
             return;
         }
-        if (!File::exist($resourceCrudPath)) {
+        if (!File::exists($resourceCrudPath)) {
             $this->error('Resource file does not exist');
             return;
         }
@@ -46,8 +48,10 @@ class DeleteFilamentResource extends Command
         $files = File::files($resourceCrudPath);
         foreach ($files as $file) {
             File::delete($file);
-            $this->info("The directory $file deleted.");
         }
+        // delete leftover directory
+        File::deleteDirectory($resourceCrudPath);
+        File::deleteDirectory(app_path('Filament/Resources/' . $name . 'Resource'));
 
         $this->info('Filament Resource deleted successfully');
     }

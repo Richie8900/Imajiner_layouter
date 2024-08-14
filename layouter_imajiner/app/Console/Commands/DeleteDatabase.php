@@ -4,9 +4,10 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-use Illuminate\Http\Testing\File;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Schema;
 
 class DeleteDatabase extends Command
 {
@@ -22,7 +23,7 @@ class DeleteDatabase extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Used to delete model file, migration file, and database';
 
     /**
      * Execute the console command.
@@ -30,31 +31,24 @@ class DeleteDatabase extends Command
     public function handle()
     {
         $name = $this->argument('name');
-        $migrationPath = $this->argument('path');
+        $migrationPath = database_path($this->argument('path'));
         $modelPath = app_path('Models/' . $name . '.php');
 
         // delete database
         try {
-            // Change to the default database connection
-            Config::set('database.connections.mysql.database', null);
-            DB::purge('mysql');
-            DB::reconnect('mysql');
-
-            // Drop the database
-            DB::statement("DROP DATABASE IF EXISTS $name");
-
-            $this->info("Database '$name' deleted successfully.");
+            Schema::dropIfExists($name);
         } catch (\Exception $e) {
             $this->error("Failed to delete the database: " . $e->getMessage());
+            return;
         }
 
         // check if path exists
-        if (!File::exists(database_path($migrationPath))) {
-            $this->error('Migration not found: ' . $migrationPath);
-            return;
-        }
         if (!File::exists($modelPath)) {
             $this->error('Model not found: ' . $modelPath);
+            return;
+        }
+        if (!File::exists($migrationPath)) {
+            $this->error('Migration not found: ' . $migrationPath);
             return;
         }
 

@@ -12,7 +12,7 @@ class DeleteStaticFile extends Command
      *
      * @var string
      */
-    protected $signature = 'delete:static {name}';
+    protected $signature = 'delete:static {name} {path}';
 
     /**
      * The console command description.
@@ -27,7 +27,7 @@ class DeleteStaticFile extends Command
     public function handle()
     {
         $name = $this->argument('name');
-        $directoryPath = public_path("static/$name-resource");
+        $directoryPath = public_path($this->argument('path'));
 
         // Check if the directory exists
         if (!File::exists($directoryPath)) {
