@@ -10,7 +10,11 @@
 </head>
 <body>
 
-{{ $slot }}
+    asdasdasdasda
+
+<x-header.flowbite-header/>  
+<x-component.component1/>
+{{-- {{ $slot }} --}}
 
 
 

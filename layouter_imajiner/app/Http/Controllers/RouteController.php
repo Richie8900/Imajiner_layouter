@@ -34,6 +34,7 @@ class RouteController extends Controller
 
     public function getDynamicRoute(string $category, string $title): view
     {
+        // dd($category . "/" . $title);
         $category = PostCategory::where('route', $category)->get();
 
         if (count($category) == 0) {

@@ -33,6 +33,10 @@ class EditHeader extends EditRecord
         return Redirect::to("/componentPreview/header/{$id}");
     }
 
+    public function syncScriptToDb() {}
+
+    public function syncDbToScript() {}
+
     protected function mutateFormDataBeforeSave(array $data): array
     {
         if (File::exists(resource_path($data['viewLocation']))) {
