@@ -45,7 +45,6 @@ class ConfigureModel extends Command
         $files = File::files($migrationPath);
         $migrationPath = $files[count($files) - 1];
 
-
         // generate script
         $modelScript = "<?php
 
@@ -108,7 +107,9 @@ return new class extends Migration
         File::put($modelPath, $modelScript);
         File::put($migrationPath, $migrationScript);
 
-        Artisan::call('migrate');
+        Artisan::call('migrate', [
+            '--path' => 'database\migrations\\' . $migrationPath->getRelativePathname()
+        ]);
 
         $this->info('Model configuration successful, BOOT IS NOT IMPLEMENTED YET');
     }

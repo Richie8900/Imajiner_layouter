@@ -47,7 +47,7 @@ class CreateFooter extends CreateRecord
 
 " . $data['viewScript'] . "
 
-<script src=\"{{ asset('static/" . $jsPath . "') }}\"></script>";
+<script src=\"{{ asset('" . $jsPath . "') }}\"></script>";
 
         File::put(resource_path($data['viewLocation']), $data['viewScript']);
         File::put($cssPath, $data['cssScript']);

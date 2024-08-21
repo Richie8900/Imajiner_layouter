@@ -59,7 +59,7 @@ class CreateLayout extends CreateRecord
 
 " . $data['viewScript'] . "
 
-<script src=\"{{ asset('static/" . $jsPath . "') }}\"></script>
+<script src=\"{{ asset('" . $jsPath . "') }}\"></script>
 </body>
 </html>";
 
