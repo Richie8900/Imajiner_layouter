@@ -16,7 +16,7 @@ class testing extends Command
      *
      * @var string
      */
-    protected $signature = 'app:testing {a}';
+    protected $signature = 'app:testing';
 
     /**
      * The console command description.
@@ -31,7 +31,12 @@ class testing extends Command
     public function handle()
     {
         // $this->info(Post_ModelAsd::all());
-        $a = public_path('static/postCategory' . $this->argument('a'));
-        File::deleteDirectories($a);
+        // $a = public_path('static/postCategory' . $this->argument('a'));
+        // File::deleteDirectories($a);
+        $this->info(File::exists(storage_path('app/public/uploads/yesterday.jpg')));
+        $this->info(storage_path('app/public/uploads/yesterday.jpg'));
+        // if (FIle::exists(asset('uploads/yesterday'))) {
+        // File::delete(asset($record->path));
+        // }
     }
 }
