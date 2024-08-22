@@ -68,8 +68,13 @@ class LayoutResource extends Resource
                     ->readOnlyOn('edit')
                     ->hiddenOn('create'),
                 Forms\Components\Actions::make([
-                    Forms\Components\Actions\Action::make('Preview edit from Script')
-                        ->action('redirectToPreview')
+                    Forms\Components\Actions\Action::make('Sync script with database')
+                        ->action('sync_script_with_db'),
+                ])
+                    ->hiddenOn('create'),
+                Forms\Components\Actions::make([
+                    Forms\Components\Actions\Action::make('Sync database with script')
+                        ->action('sync_db_with_script')
                 ])
                     ->hiddenOn('create'),
             ]);

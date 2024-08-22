@@ -80,6 +80,16 @@ class PostCategoryResource extends Resource
                     ->label('Resource Location')
                     ->readOnlyOn('edit')
                     ->hiddenOn('create'),
+                Forms\Components\Actions::make([
+                    Forms\Components\Actions\Action::make('Sync script with database')
+                        ->action('sync_script_with_db'),
+                ])
+                    ->hiddenOn('create'),
+                Forms\Components\Actions::make([
+                    Forms\Components\Actions\Action::make('Sync database with script')
+                        ->action('sync_db_with_script')
+                ])
+                    ->hiddenOn('create'),
             ]);
     }
 
