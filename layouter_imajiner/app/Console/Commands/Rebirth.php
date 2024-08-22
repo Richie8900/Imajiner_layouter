@@ -35,6 +35,18 @@ class Rebirth extends Command
     public function handle()
     {
         // deletes all the data 100 at a time
+        Pages::chunk(100, function ($records) {
+            foreach ($records as $record) {
+                $record->delete();
+            }
+        });
+        $this->info("Pages cleaned");
+        PostCategory::chunk(100, function ($records) {
+            foreach ($records as $record) {
+                $record->delete();
+            }
+        });
+        $this->info("PostCategory cleaned");
         Component::chunk(100, function ($records) {
             foreach ($records as $record) {
                 $record->delete();
@@ -65,17 +77,5 @@ class Rebirth extends Command
             }
         });
         $this->info("Media cleaned");
-        Pages::chunk(100, function ($records) {
-            foreach ($records as $record) {
-                $record->delete();
-            }
-        });
-        $this->info("Pages cleaned");
-        PostCategory::chunk(100, function ($records) {
-            foreach ($records as $record) {
-                $record->delete();
-            }
-        });
-        $this->info("PostCategory cleaned");
     }
 }
