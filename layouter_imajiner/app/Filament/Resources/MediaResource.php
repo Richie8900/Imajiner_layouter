@@ -30,8 +30,7 @@ class MediaResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->label('Layout Name')
-                    ->required()
-                    ->readOnlyOn('edit'),
+                    ->required(),
                 FileUpload::make('path')
                     ->label('Image')
                     ->required()

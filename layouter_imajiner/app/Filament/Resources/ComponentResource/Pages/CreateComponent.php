@@ -9,6 +9,11 @@ use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Filament\Notifications\Notification;
+use App\Models\Component;
+use App\Models\Header;
+use App\Models\Footer;
+use App\Models\Layout;
 
 class CreateComponent extends CreateRecord
 {
@@ -20,8 +25,29 @@ class CreateComponent extends CreateRecord
         return $this->getResource()::getUrl('index');
     }
 
+    protected function beforeCreate(): void {}
+
     protected function mutateFormDataBeforeCreate(array $data): array
     {
+        // generate slug
+        $data['slug'] = Str::slug($data['name']);
+        $formattedName = str_replace(' ', '', ucwords($data['name']));
+
+        // validation for name
+        $c = Component::where('slug', $data['slug']);
+        $h = Header::where('slug', $data['slug']);
+        $f = Footer::where('slug', $data['slug']);
+        $l = Layout::where('slug', $data['slug']);
+        if (count($c->get()) != 0 || count($h->get()) != 0 || count($f->get()) != 0 || count($l->get()) != 0) {
+            Notification::make()
+                ->title('Creation Cancelled')
+                ->body("Component name already in use")
+                ->warning()
+                ->send();
+
+            $this->halt();
+        }
+
         // generate slug
         $data['slug'] = Str::slug($data['name']);
         $formattedName = str_replace(' ', '', ucwords($data['name']));

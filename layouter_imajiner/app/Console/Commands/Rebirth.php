@@ -77,5 +77,6 @@ class Rebirth extends Command
             }
         });
         $this->info("Media cleaned");
+        $this->info("Rebirth complete");
     }
 }
