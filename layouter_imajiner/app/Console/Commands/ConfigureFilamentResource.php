@@ -14,7 +14,7 @@ class ConfigureFilamentResource extends Command
      *
      * @var string
      */
-    protected $signature = 'configure:filament {name} {code}';
+    protected $signature = 'configure:filament {name} {code} {route}';
 
     /**
      * The console command description.
@@ -30,6 +30,7 @@ class ConfigureFilamentResource extends Command
     {
         $code = $this->argument('code');
         $name = $this->argument('name');
+        $route = $this->argument('route');
 
         // make model and migration file
         Artisan::call('make:filament-resource', [
@@ -99,12 +100,17 @@ class " . $code . "Resource extends Resource
                 TextColumn::make('title')
                     ->label(\"Title\")
                     ->sortable(),
+                TextColumn::make('slug')
+                    ->label(\"Route\")
+                    ->prefix('" . $route . "/')
+                    ->sortable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -139,6 +145,8 @@ use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
 use Illuminate\Support\Str;
+use Filament\Notifications\Notification;
+use App\Models\\" . $code . ";
 
 class Create" . $code . " extends CreateRecord
 {
@@ -153,6 +161,18 @@ class Create" . $code . " extends CreateRecord
     protected function mutateFormDataBeforeCreate(array \$data): array
     {
         \$data['slug'] = Str::slug(\$data['title']);
+
+        // validation route
+        \$p = " . $code . "::where('title', \$data['title']);
+        if (count(\$p->get()) != 0) {
+            Notification::make()
+                ->title('Creation Cancelled')
+                ->body(\"Route already in use\")
+                ->warning()
+                ->send();
+
+            \$this->halt();
+        }
 
         return \$data;
     }

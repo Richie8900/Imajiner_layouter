@@ -10,12 +10,12 @@ use App\Models\PostCategory;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Artisan;
+use Filament\Notifications\Notification;
 
 use App\Models\Layout;
 use App\Models\Header;
 use App\Models\Footer;
-
-use Illuminate\Support\Carbon;
+use App\Models\Pages;
 
 class CreatePostCategory extends CreateRecord
 {
@@ -32,6 +32,38 @@ class CreatePostCategory extends CreateRecord
         // create tag name n location
         $data['slug'] = Str::slug($data['name']);
         $formattedName = str_replace(' ', '', ucwords($data['name']));
+
+        // generate Code for db name
+        $data['code'] = $formattedName;
+        // $data['code'] = Str::lower(str_replace(' ', '', ucwords(str_replace('_', ' ', $data['code']))));
+        if (!Str::endsWith($data['code'], 's') && !Str::endsWith($data['code'], 'S')) {
+            $data['code'] = $data['code'] . 's';
+        }
+
+        // validation route
+        $p = Pages::where('route', $data['route']);
+        $pc = PostCategory::where('route', $data['route']);
+        if (count($p->get()) != 0 || count($pc->get()) != 0) {
+            Notification::make()
+                ->title('Creation Cancelled')
+                ->body("Route already in use")
+                ->warning()
+                ->send();
+
+            $this->halt();
+        }
+
+        // database validation
+        $m = app_path('Models/' . $data['code'] . ".php");
+        if (File::exists($m)) {
+            Notification::make()
+                ->title('Creation Cancelled')
+                ->body("Model with " . $data['name'] . " is already in use")
+                ->warning()
+                ->send();
+
+            $this->halt();
+        }
 
         // create view, javascript, and css using artisan
         Artisan::call('make:view', [
@@ -64,24 +96,17 @@ class CreatePostCategory extends CreateRecord
         // structuring the script
         $data['viewScript'] =
             "$layoutTagOpen
-        $headerTag
-        <link rel=\"stylesheet\" href=\"{{ asset('static/{$data['slug']}-resource/{$data['slug']}.css') }}\">
+    $headerTag
+    <link rel=\"stylesheet\" href=\"{{ asset('static/{$data['slug']}-resource/{$data['slug']}.css') }}\">
 
-        {{-- Content here --}}
+    {{-- Content here --}}
 
-        <script src=\"{{ asset('static/{$data['slug']}-resource/{$data['slug']}.js') }}\"></script>
-        $footerTag
+    <script src=\"{{ asset('static/{$data['slug']}-resource/{$data['slug']}.js') }}\"></script>
+    $footerTag
 $layoutTagClose";
 
         // put script into the view file
         File::put(resource_path($data['viewLocation']), $data['viewScript']);
-
-        // generate Code
-        $data['code'] = 'Post' . $formattedName;
-        $data['code'] = Str::lower(str_replace(' ', '', ucwords(str_replace('_', ' ', $data['code']))));
-        if (!Str::endsWith($data['code'], 's') && !Str::endsWith($data['code'], 'S')) {
-            $data['code'] = $data['code'] . 's';
-        }
 
         // create model
         Artisan::call('configure:model', [
@@ -97,6 +122,7 @@ $layoutTagClose";
         Artisan::call('configure:filament', [
             'name' => $data['name'],
             'code' => $data['code'],
+            'route' => $data['route'],
         ]);
 
         return $data;

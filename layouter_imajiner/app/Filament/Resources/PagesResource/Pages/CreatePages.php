@@ -5,6 +5,7 @@ namespace App\Filament\Resources\PagesResource\Pages;
 use App\Filament\Resources\PagesResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
+use Filament\Notifications\Notification;
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
@@ -13,6 +14,8 @@ use Illuminate\Support\Str;
 use App\Models\Layout;
 use App\Models\Header;
 use App\Models\Footer;
+use App\Models\Pages;
+use App\Models\PostCategory;
 
 class CreatePages extends CreateRecord
 {
@@ -29,6 +32,19 @@ class CreatePages extends CreateRecord
         // create tag name n location
         $data['slug'] = Str::slug($data['name']);
         $formattedName = str_replace(' ', '', ucwords($data['name']));
+
+        // validation for route
+        $p = Pages::where('route', $data['route']);
+        $pc = PostCategory::where('route', $data['route']);
+        if (count($p->get()) != 0 || count($pc->get()) != 0) {
+            Notification::make()
+                ->title('Creation Cancelled')
+                ->body("Route already in use")
+                ->warning()
+                ->send();
+
+            $this->halt();
+        }
 
         // create view, javascript, and css using artisan
         Artisan::call('make:view', [
