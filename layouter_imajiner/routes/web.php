@@ -28,15 +28,6 @@ Route::get('/', function () {
 });
 
 Route::get('/componentPreview/{category}/{id}', function ($category, $id) {
-    // if ($category == 'header') {
-    //     DataSyncController::syncHeader($id);
-    // } else if ($category == 'footer') {
-    //     DataSyncController::syncFooter($id);
-    // } else if ($category == 'component') {
-    //     DataSyncController::syncComponent($id);
-    // } else {
-    //     abort(404);
-    // }
     return view('Preview/Preview', ['category' => $category, 'id' => $id]);
 });
 

@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\Repeater;
+use Filament\Tables\Actions\ButtonAction;
+use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Pages as PagesModel;
 use Filament\Notifications\Notification;
@@ -76,6 +78,11 @@ class ComponentResource extends Resource
                         ->action('sync_db_with_script')
                 ])
                     ->hiddenOn('create'),
+                Forms\Components\Actions::make([
+                    Forms\Components\Actions\Action::make('Preview Component')
+                        ->action('preview')
+                ])
+                    ->hiddenOn('create'),
             ]);
     }
 
@@ -99,6 +106,14 @@ class ComponentResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                ButtonAction::make('customButton')
+                    ->label('Preview')
+                    ->action(function ($record) {
+                        $id = $record->id;
+                        return Redirect::to("/componentPreview/component/{$id}");
+                    })
+                    ->color('primary')
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

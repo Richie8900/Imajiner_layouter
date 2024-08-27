@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\Repeater;
+use Filament\Tables\Actions\ButtonAction;
+use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Pages as PagesModel;
 use Filament\Notifications\Notification;
@@ -99,6 +101,13 @@ class FooterResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                ButtonAction::make('customButton')
+                    ->label('Preview')
+                    ->action(function ($record) {
+                        $id = $record->id;
+                        return Redirect::to("/componentPreview/footer/{$id}");
+                    })
+                    ->color('primary')
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
