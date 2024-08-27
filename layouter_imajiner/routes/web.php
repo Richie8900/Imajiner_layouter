@@ -24,7 +24,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/', function () {
-    return view('home');
+    return view('LandingPage');
 });
 
 Route::get('/componentPreview/{category}/{id}', function ($category, $id) {
@@ -38,15 +38,6 @@ Route::get('/componentPreview/{category}/{id}', function ($category, $id) {
     //     abort(404);
     // }
     return view('Preview/Preview', ['category' => $category, 'id' => $id]);
-});
-
-Route::get('/test', function () {
-    // $data = Pages::where('route', 'testing')->get();
-    // // $data = Pages::all();
-    // dd(count($data));
-    // return view('landingPage', ['data' => $data[0]]);
-    // return view('components.header.header_one');
-    return view('landingPage');
 });
 
 Route::get('/{slug}', [RouteController::class, 'getStaticRoute']);

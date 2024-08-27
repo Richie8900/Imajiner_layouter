@@ -9,11 +9,16 @@ class Kernel extends ConsoleKernel
 {
     protected $commands = [
         \App\Console\Commands\AddAppViewVar::class,
+        \App\Console\Commands\ConfigureFilamentResource::class,
+        \App\Console\Commands\ConfigureModel::class,
         \App\Console\Commands\CreateNewRoute::class,
         \App\Console\Commands\CreateStaticFile::class,
         \App\Console\Commands\DeleteStaticFile::class,
         \App\Console\Commands\DeleteComponent::class,
+        \App\Console\Commands\DeleteFilamentResource::class,
+        \App\Console\Commands\DeleteStaticFile::class,
         \App\Console\Commands\DeleteView::class,
+        \App\Console\Commands\Rebirth::class,
         \App\Console\Commands\testing::class,
     ];
 
