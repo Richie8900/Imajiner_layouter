@@ -1,19 +1,18 @@
 <?php
 
-namespace App\Filament\Resources\HeaderResource\Pages;
+namespace App\Filament\Resources\PostCategoryResource\Pages;
 
-use App\Filament\Resources\HeaderResource;
+use App\Filament\Resources\PostCategoryResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\DataSyncController;
 
-class EditHeader extends EditRecord
+class EditPostCategory extends EditRecord
 {
-    protected static string $resource = HeaderResource::class;
+    protected static string $resource = PostCategoryResource::class;
 
     protected function getHeaderActions(): array
     {
@@ -22,7 +21,7 @@ class EditHeader extends EditRecord
         ];
     }
 
-    // redirect after edit
+    // redirect to index page
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
@@ -30,7 +29,7 @@ class EditHeader extends EditRecord
 
     public function sync_db_with_script()
     {
-        DataSyncController::syncHeader($this->record->id, true);
+        DataSyncController::syncPostCategory($this->record->id, true);
         return Redirect::to($this->getResource()::getUrl('index'));
     }
 
@@ -38,20 +37,21 @@ class EditHeader extends EditRecord
     {
         $this->record->fill($this->form->getState());
         $this->record->save();
-        DataSyncController::syncHeader($this->record->id, false);
+        DataSyncController::syncPostCategory($this->record->id, false);
         return Redirect::to($this->getResource()::getUrl('index'));
     }
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
+
         if (File::exists(resource_path($data['viewLocation']))) {
             File::put(resource_path($data['viewLocation']), $data['viewScript']);
         }
 
-        $cssPath = $data['resourceLocation'] . "/" . $data['slug'] . ".css";
-        $jsPath = $data['resourceLocation'] .  "/" . $data['slug'] . ".js";
+        $cssPath = public_path($data['resourceLocation'] . "/" . $data['slug'] . ".css");
+        $jsPath = public_path($data['resourceLocation'] .  "/" . $data['slug'] . ".js");
 
-        if (File::exists(public_path($data['resourceLocation'])) && File::exists(public_path($cssPath)) && File::exists(public_path($jsPath))) {
+        if (File::exists(public_path($data['resourceLocation'])) && File::exists($cssPath) && File::exists($jsPath)) {
             File::put($cssPath, $data['cssScript']);
             File::put($jsPath, $data['jsScript']);
         }

@@ -6,6 +6,7 @@ use App\Models\TestTable;
 use Illuminate\Support\Facades\File;
 
 use App\Http\Controllers\DataSyncController;
+use App\Http\Controllers\RouteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,19 +24,13 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/', function () {
-    return view('home');
+    return view('LandingPage');
 });
 
 Route::get('/componentPreview/{category}/{id}', function ($category, $id) {
-    if ($category == 'header') {
-        DataSyncController::syncHeader($id);
-    } else if ($category == 'footer') {
-        DataSyncController::syncFooter($id);
-    } else if ($category == 'component') {
-        DataSyncController::syncComponent($id);
-    } else {
-        abort(404);
-    }
     return view('Preview/Preview', ['category' => $category, 'id' => $id]);
 });
-Route::get('/home', function () { return view('home', ['data' => Pages::where('Route', 'home')->first()]); });
+
+Route::get('/{slug}', [RouteController::class, 'getStaticRoute']);
+
+Route::get('/{category}/{slug}', [RouteController::class, 'getDynamicRoute']);

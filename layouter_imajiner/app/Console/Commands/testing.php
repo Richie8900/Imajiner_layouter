@@ -5,6 +5,10 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
+use Illuminate\Support\Facades\DB;
+use App\Models;
+use App\Models\Post_ModelAsd;
+
 class testing extends Command
 {
     /**
@@ -26,15 +30,13 @@ class testing extends Command
      */
     public function handle()
     {
-        $a = File::exists(resource_path('views/components/header/header-one.blade.php'));
-        $info = "";
-
-        if ($a) {
-            $info = "info";
-        } else {
-            $info = "error";
-        };
-
-        $this->info($info);
+        // $this->info(Post_ModelAsd::all());
+        // $a = public_path('static/postCategory' . $this->argument('a'));
+        // File::deleteDirectories($a);
+        $this->info(File::exists(storage_path('app/public/uploads/yesterday.jpg')));
+        $this->info(storage_path('app/public/uploads/yesterday.jpg'));
+        // if (FIle::exists(asset('uploads/yesterday'))) {
+        // File::delete(asset($record->path));
+        // }
     }
 }

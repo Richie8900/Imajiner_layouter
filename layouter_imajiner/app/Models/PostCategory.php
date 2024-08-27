@@ -4,15 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use App\Models\TestTable;
-use App\Models\Layout;
-use App\Models\Header;
-use App\Models\Footer;
 
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Artisan;
 
-class Pages extends Model
+class PostCategory extends Model
 {
     use HasFactory;
 
@@ -20,21 +16,18 @@ class Pages extends Model
         'name',
         'slug',
         'route',
+        'code',
         'description',
         'viewScript',
         'jsScript',
         'cssScript',
-        'tag',
         'viewLocation',
         'resourceLocation',
+        'migrationPath',
         'content',
         'layoutId',
         'headerId',
-        'footerId'
-    ];
-
-    protected $casts = [
-        'content' => 'array'
+        'footerId',
     ];
 
     public function layouts(): HasOne
@@ -60,11 +53,18 @@ class Pages extends Model
             // Custom logic after deletion
             Artisan::call('delete:view', [
                 'name' => $record->slug,
-                'path' => $record->viewLocation
+                'path' => $record->viewLocation,
             ]);
             Artisan::call('delete:static', [
                 'name' => $record->slug,
-                'path' => $record->resourceLocation
+                'path' => $record->resourceLocation,
+            ]);
+            Artisan::call('delete:database', [
+                'name' => $record->code,
+                'path' => $record->migrationPath
+            ]);
+            Artisan::call('delete:filament-resource', [
+                'name' => $record->code
             ]);
         });
     }

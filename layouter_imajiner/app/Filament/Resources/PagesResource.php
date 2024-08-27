@@ -18,6 +18,8 @@ use Filament\Forms\Components\Select;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Artisan;
 
+use Filament\Forms\Components\Repeater;
+
 class PagesResource extends Resource
 {
     protected static ?string $model = ModelPage::class;
@@ -30,39 +32,75 @@ class PagesResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextArea::make('PageName')
-                    ->label('Page name')
+                Forms\Components\TextInput::make('name')
+                    ->label('Page Name')
                     ->required()
-                    ->disabledOn('edit'),
-                Forms\Components\TextArea::make('Description')
-                    ->label('Description')
-                    ->required(),
-                Forms\Components\TextArea::make('Script')
-                    ->label('Script')
-                    ->columnSpanFull(),
-                Forms\Components\TextArea::make('Route')
-                    ->label('Route (/path, just input the path name)')
+                    ->readOnlyOn('edit'),
+                Forms\Components\TextInput::make('slug')
+                    ->label('Slug')
+                    ->readOnlyOn('edit')
+                    ->hiddenOn('create'),
+                Forms\Components\TextInput::make('route')
+                    ->label('Route')
                     ->required()
-                    ->disabledOn('edit'),
-                Forms\Components\TextArea::make('Location')
-                    ->label('Location')
-                    ->HiddenOn('create'),
-                Select::make('LayoutId')
+                    ->prefix('http://layouter/')
+                // ->readOnlyOn('edit'),
+                ,
+                Forms\Components\TextInput::make('description')
+                    ->label('Description'),
+                Select::make('layoutId')
                     ->label('Select Layout')
-                    ->relationship('layouts', 'LayoutName')
+                    ->relationship('layouts', 'name')
                     ->required()
-                    ->hiddenOn('edit'),
-                Select::make('HeaderId')
+                    ->hiddenOn('edit')
+                    ->columnSpanFull(),
+                Select::make('headerId')
+                    ->hiddenOn('edit')
+                    ->required()
                     ->label('Select Header')
-                    ->relationship('headers', 'HeaderName')
+                    ->relationship('headers', 'name'),
+                Select::make('footerId')
+                    ->hiddenOn('edit')
                     ->required()
-                    ->hiddenOn('edit'),
-                Select::make('FooterId')
                     ->label('Select Footer')
-                    ->relationship('footers', 'FooterName')
-                    ->required()
-                    ->hiddenOn('edit'),
-
+                    ->relationship('footers', 'name'),
+                Repeater::make('content')
+                    ->label('Content')
+                    ->schema([
+                        Forms\Components\TextInput::make('title'),
+                        Forms\Components\Textarea::make('description'),
+                    ])
+                    ->columnSpanFull(),
+                Forms\Components\TextArea::make('viewScript')
+                    ->label('View Script')
+                    ->columnSpanFull()
+                    ->hiddenOn('create'),
+                Forms\Components\TextArea::make('jsScript')
+                    ->label('Javascript Script')
+                    ->columnSpanFull()
+                    ->hiddenOn('create'),
+                Forms\Components\TextArea::make('cssScript')
+                    ->label('Css Script')
+                    ->columnSpanFull()
+                    ->hiddenOn('create'),
+                Forms\Components\TextInput::make('viewLocation')
+                    ->label('View Location')
+                    ->readOnlyOn('edit')
+                    ->hiddenOn('create'),
+                Forms\Components\TextInput::make('resourceLocation')
+                    ->label('Resource Location')
+                    ->readOnlyOn('edit')
+                    ->hiddenOn('create'),
+                Forms\Components\Actions::make([
+                    Forms\Components\Actions\Action::make('Sync script with database')
+                        ->action('sync_script_with_db'),
+                ])
+                    ->hiddenOn('create'),
+                Forms\Components\Actions::make([
+                    Forms\Components\Actions\Action::make('Sync database with script')
+                        ->action('sync_db_with_script')
+                ])
+                    ->hiddenOn('create'),
             ]);
     }
 
@@ -70,11 +108,14 @@ class PagesResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('PageName')
-                    ->label("Page Name")
+                TextColumn::make('name')
+                    ->label("Header name")
                     ->sortable(),
-                TextColumn::make('Description')
+                TextColumn::make('description')
                     ->label("Description")
+                    ->sortable(),
+                TextColumn::make('slug')
+                    ->label("Tag")
                     ->sortable(),
             ])
             ->filters([
@@ -82,14 +123,7 @@ class PagesResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()
-                    ->before(function ($record) {
-                        // Delete static file 
-                        Artisan::call('delete:static', [
-                            'type' => 'view',
-                            'name' => $record->PageName,
-                        ]);
-                    }),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\HeaderResource\Pages;
-use App\Filament\Resources\HeaderResource\RelationManagers;
-use App\Models\Header;
+use App\Filament\Resources\PostCategoryResource\Pages;
+use App\Filament\Resources\PostCategoryResource\RelationManagers;
+use App\Models\PostCategory;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,18 +12,14 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Actions\ButtonAction;
-use Illuminate\Support\Facades\Redirect;
 
-use App\Models\Pages as PagesModel;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Repeater;
-use Filament\Notifications\Notification;
-use Illuminate\Support\Facades\Artisan;
+use Filament\Tables\Columns\TextColumn;
 
-class HeaderResource extends Resource
+class PostCategoryResource extends Resource
 {
-    protected static ?string $model = Header::class;
+    protected static ?string $model = PostCategory::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -34,32 +30,48 @@ class HeaderResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
-                    ->label('Header Name')
+                    ->label('Category Name')
                     ->required()
                     ->readOnlyOn('edit'),
                 Forms\Components\TextInput::make('slug')
-                    ->label('Tag')
+                    ->label('Slug')
                     ->readOnlyOn('edit')
                     ->hiddenOn('create'),
+                Forms\Components\TextInput::make('route')
+                    ->label('Route')
+                    ->required()
+                    ->prefix('http://layouter/')
+                    ->readOnlyOn('edit'),
                 Forms\Components\TextInput::make('description')
-                    ->label('Description')
+                    ->label('Description'),
+                Select::make('layoutId')
+                    ->label('Select Layout')
+                    ->relationship('layouts', 'name')
+                    ->required()
+                    ->hiddenOn('edit')
                     ->columnSpanFull(),
-                Repeater::make('content')
-                    ->label('Content')
-                    ->schema([
-                        Forms\Components\TextInput::make('title'),
-                        Forms\Components\Textarea::make('description'),
-                    ])
-                    ->columnSpanFull(),
+                Select::make('headerId')
+                    ->hiddenOn('edit')
+                    ->required()
+                    ->label('Select Header')
+                    ->relationship('headers', 'name'),
+                Select::make('footerId')
+                    ->hiddenOn('edit')
+                    ->required()
+                    ->label('Select Footer')
+                    ->relationship('footers', 'name'),
                 Forms\Components\TextArea::make('viewScript')
                     ->label('View Script')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->hiddenOn('create'),
                 Forms\Components\TextArea::make('jsScript')
                     ->label('Javascript Script')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->hiddenOn('create'),
                 Forms\Components\TextArea::make('cssScript')
                     ->label('Css Script')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->hiddenOn('create'),
                 Forms\Components\TextInput::make('viewLocation')
                     ->label('View Location')
                     ->readOnlyOn('edit')
@@ -86,13 +98,10 @@ class HeaderResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                    ->label("Header name")
+                    ->label("Categories")
                     ->sortable(),
-                TextColumn::make('description')
-                    ->label("Description")
-                    ->sortable(),
-                TextColumn::make('slug')
-                    ->label("Tag")
+                TextColumn::make('code')
+                    ->label("Table Name")
                     ->sortable(),
             ])
             ->filters([
@@ -101,13 +110,6 @@ class HeaderResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
-                ButtonAction::make('customButton')
-                    ->label('Preview')
-                    ->action(function ($record) {
-                        $id = $record->id;
-                        return Redirect::to("/componentPreview/header/{$id}");
-                    })
-                    ->color('primary')
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -126,9 +128,9 @@ class HeaderResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListHeaders::route('/'),
-            'create' => Pages\CreateHeader::route('/create'),
-            'edit' => Pages\EditHeader::route('/{record}/edit'),
+            'index' => Pages\ListPostCategories::route('/'),
+            'create' => Pages\CreatePostCategory::route('/create'),
+            'edit' => Pages\EditPostCategory::route('/{record}/edit'),
         ];
     }
 }

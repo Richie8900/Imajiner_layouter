@@ -8,6 +8,12 @@ use Filament\Resources\Pages\CreateRecord;
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
+use Filament\Notifications\Notification;
+use App\Models\Component;
+use App\Models\Header;
+use App\Models\Footer;
+use App\Models\Layout;
 
 class CreateFooter extends CreateRecord
 {
@@ -21,18 +27,56 @@ class CreateFooter extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        // create tag name n location
-        $formatName = strtolower(preg_replace('/(?<!^)(?=[A-Z])/', '-', $data['FooterName']));
-        $data['Tag'] = $formatName;
-        $data['Location'] = "views/components/footer/{$formatName}.blade.php";
+        // generate slug
+        $data['slug'] = Str::slug(preg_replace('/(?<!^)([A-Z])/', ' $1', $data['name']));
+        $formattedName = str_replace(' ', '', ucwords($data['name']));
 
-        // artisan make:component
+        // validation for name
+        $c = Component::where('slug', $data['slug']);
+        $h = Header::where('slug', $data['slug']);
+        $f = Footer::where('slug', $data['slug']);
+        $l = Layout::where('slug', $data['slug']);
+        if (count($c->get()) != 0 || count($h->get()) != 0 || count($f->get()) != 0 || count($l->get()) != 0) {
+            Notification::make()
+                ->title('Creation Cancelled')
+                ->body("Component name already in use")
+                ->warning()
+                ->send();
+
+            $this->halt();
+        }
+
+        // create component files > create resource/views/components/... + app/View/Components/...
         Artisan::call('make:component', [
-            'name' => 'Footer/' . $data['FooterName'],
+            'name' => 'footer/' . $formattedName,
         ]);
 
-        // replace existing script
-        File::put(resource_path("views/components/footer/{$formatName}.blade.php"), $data['Script']);
+        // create component files > create public/static/...-resource
+        Artisan::call('make:static', [
+            'name' => 'footer/' . $data['slug'],
+        ]);
+
+        // insert each script into each files
+        $data['viewLocation'] = "views/components/footer/{$data['slug']}.blade.php";
+        $data['resourceLocation'] = "static/footer/" . $data['slug'] . "-resource";
+        $data['appViewLocation'] = "View/Components/footer/" . $formattedName . ".php";
+        $cssPath = $data['resourceLocation'] . "/" . $data['slug'] . ".css";
+        $jsPath = $data['resourceLocation'] .  "/" . $data['slug'] . ".js";
+
+        $data['viewScript'] = "<link rel=\"stylesheet\" href=\"{{ asset('" . $cssPath . "') }}\">
+
+" . $data['viewScript'] . "
+
+<script src=\"{{ asset('" . $jsPath . "') }}\"></script>";
+
+        File::put(resource_path($data['viewLocation']), $data['viewScript']);
+        File::put($cssPath, $data['cssScript']);
+        File::put($jsPath, $data['jsScript']);
+        Artisan::call('add:appView', [
+            'name' => $data['name'],
+            'component' => 'footer',
+            'location' => $data['appViewLocation']
+        ]);
 
         return $data;
     }

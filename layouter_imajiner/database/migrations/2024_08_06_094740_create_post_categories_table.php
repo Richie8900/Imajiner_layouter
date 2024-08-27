@@ -11,19 +11,29 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('headers', function (Blueprint $table) {
+        Schema::create('post_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('slug');
+            $table->string('code');
+
+            $table->string('route');
             $table->string('description')->nullable();
 
             $table->longText('viewScript')->nullable();
-            $table->longText('cssScript')->nullable();
             $table->longText('jsScript')->nullable();
+            $table->longText('cssScript')->nullable();
 
             $table->string('viewLocation');
             $table->string('resourceLocation');
-            $table->string('appViewLocation');
+            $table->string('migrationPath');
+
+            $table->unsignedBigInteger('layoutId')->nullable();
+            $table->unsignedBigInteger('headerId')->nullable();
+            $table->unsignedBigInteger('footerId')->nullable();
+            $table->foreign('layoutId')->references('id')->on('layouts');
+            $table->foreign('headerId')->references('id')->on('headers');
+            $table->foreign('footerId')->references('id')->on('footers');
 
             $table->longText('content')->nullable();
             $table->timestamps();
@@ -35,6 +45,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('headers');
+        Schema::dropIfExists('post_categories');
     }
 };

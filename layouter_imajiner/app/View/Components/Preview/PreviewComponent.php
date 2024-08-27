@@ -25,7 +25,7 @@ class PreviewComponent extends Component
             $this->componentData = Header::find($id);
         } else if ($category == 'footer') {
             $this->componentData = Footer::find($id);
-        } else if ($category == 'footer') {
+        } else if ($category == 'component') {
             $this->componentData = Comp::find($id);
         }
     }

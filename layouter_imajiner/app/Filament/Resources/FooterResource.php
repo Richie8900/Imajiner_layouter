@@ -13,6 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\Repeater;
+use Filament\Tables\Actions\ButtonAction;
+use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Pages as PagesModel;
 use Filament\Notifications\Notification;
@@ -30,24 +33,49 @@ class FooterResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextArea::make('FooterName')
-                    ->label('Footer name')
+                Forms\Components\TextInput::make('name')
+                    ->label('Footer Name')
                     ->required()
-                    ->disabledOn('edit'),
-                Forms\Components\TextArea::make('Description')
+                    ->readOnlyOn('edit'),
+                Forms\Components\TextInput::make('slug')
+                    ->label('Tag')
+                    ->readOnlyOn('edit')
+                    ->hiddenOn('create'),
+                Forms\Components\TextInput::make('description')
                     ->label('Description')
-                    ->required(),
-                Forms\Components\TextArea::make('Script')
-                    ->label('Script')
-                    ->required()
-                    ->hiddenOn('edit'),
-                Forms\Components\TextArea::make('Location')
-                    ->label('Location')
-                    ->required()
+                    ->columnSpanFull(),
+                Repeater::make('content')
+                    ->label('Content')
+                    ->schema([
+                        Forms\Components\TextInput::make('title'),
+                        Forms\Components\Textarea::make('description'),
+                    ])
+                    ->columnSpanFull(),
+                Forms\Components\TextArea::make('viewScript')
+                    ->label('View Script')
+                    ->columnSpanFull(),
+                Forms\Components\TextArea::make('jsScript')
+                    ->label('Javascript Script')
+                    ->columnSpanFull(),
+                Forms\Components\TextArea::make('cssScript')
+                    ->label('Css Script')
+                    ->columnSpanFull(),
+                Forms\Components\TextInput::make('viewLocation')
+                    ->label('View Location')
+                    ->readOnlyOn('edit')
+                    ->hiddenOn('create'),
+                Forms\Components\TextInput::make('resourceLocation')
+                    ->label('Resource Location')
+                    ->readOnlyOn('edit')
                     ->hiddenOn('create'),
                 Forms\Components\Actions::make([
-                    Forms\Components\Actions\Action::make('Preview Header')
-                        ->action('redirectToPreview')
+                    Forms\Components\Actions\Action::make('Sync script with database')
+                        ->action('sync_script_with_db'),
+                ])
+                    ->hiddenOn('create'),
+                Forms\Components\Actions::make([
+                    Forms\Components\Actions\Action::make('Sync database with script')
+                        ->action('sync_db_with_script')
                 ])
                     ->hiddenOn('create'),
             ]);
@@ -57,13 +85,13 @@ class FooterResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('FooterName')
+                TextColumn::make('name')
                     ->label("Footer name")
                     ->sortable(),
-                TextColumn::make('Description')
+                TextColumn::make('description')
                     ->label("Description")
                     ->sortable(),
-                TextColumn::make('Tag')
+                TextColumn::make('slug')
                     ->label("Tag")
                     ->sortable(),
             ])
@@ -72,30 +100,14 @@ class FooterResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make()
-                    ->before(function ($record, Tables\Actions\DeleteAction $action) {
-                        // Check if the Header record is referenced by any Page record
-                        $isReferenced = PagesModel::where('FooterId', $record->id)->exists();
-
-                        if ($isReferenced) {
-                            // Use Filament's notification system to display an error message
-                            Notification::make()
-                                ->title('Deletion Failed')
-                                ->danger()
-                                ->body('This footer is referenced in the Pages table and cannot be deleted.')
-                                ->send();
-
-                            // Prevent the deletion from proceeding
-                            $action->cancel();
-                        }
+                Tables\Actions\DeleteAction::make(),
+                ButtonAction::make('customButton')
+                    ->label('Preview')
+                    ->action(function ($record) {
+                        $id = $record->id;
+                        return Redirect::to("/componentPreview/footer/{$id}");
                     })
-                    ->after(function ($record, $action) {
-                        // Deletes the component files using artisan command
-                        Artisan::call('delete:component', [
-                            'type' => 'Footer',
-                            'name' => $record->FooterName,
-                        ]);
-                    }),
+                    ->color('primary')
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
