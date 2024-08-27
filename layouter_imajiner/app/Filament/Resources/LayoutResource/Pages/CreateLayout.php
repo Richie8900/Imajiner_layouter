@@ -28,7 +28,7 @@ class CreateLayout extends CreateRecord
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         // generate slug
-        $data['slug'] = Str::slug($data['name']);
+        $data['slug'] = Str::slug(preg_replace('/(?<!^)([A-Z])/', ' $1', $data['name']));
         $formattedName = str_replace(' ', '', ucwords($data['name']));
 
         // validation for name

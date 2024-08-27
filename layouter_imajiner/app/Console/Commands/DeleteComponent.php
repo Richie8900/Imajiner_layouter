@@ -30,8 +30,8 @@ class DeleteComponent extends Command
     {
         $name = $this->argument('name');
         $category = $this->argument('category');
-        $formattedName = str_replace(' ', '', $name);
-        $slug = Str::slug($name);
+        $formattedName = str_replace(' ', '', ucwords($name));
+        $slug = Str::slug(preg_replace('/(?<!^)([A-Z])/', ' $1', $name));
         $viewDirectory = resource_path("views/components/$category/$slug.blade.php");
         $appDirectory = app_path("View/Components/$category/$formattedName.php");
 
