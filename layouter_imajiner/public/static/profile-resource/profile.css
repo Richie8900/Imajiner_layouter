@@ -1,0 +1,33 @@
+#main-content{
+    scroll-behavior: smooth;
+}
+
+#profile-nav{
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transition: transform 0.2s ease-in-out;
+}
+.nav-extend{
+    transform: translate(0, -50%);
+}
+.nav-closed{  
+    transform: translate(18vh, -50%);
+}
+
+.profile-nav{ 
+    
+}
+.profile-nav:hover{
+}
+
+.profile-nav > img{
+    
+    transition: height 0.5s ease-in-out;
+}
+.blink{
+    height: 4px;
+}
+.blink2{
+    height: 8px;
+}

@@ -1,0 +1,44 @@
+#sd, #smp, #sma, #uni{
+    
+}
+
+/* bg */
+#sd{
+    background: linear-gradient(to left, rgb(255, 39, 15) 50%, rgb(0, 0, 0) 50%) right;
+    background-size: 200%;
+    transition: .5s ease-out;
+}
+#sd:hover {
+    background-position: left;
+}
+
+#smp{
+    background: linear-gradient(to left, rgb(15, 115, 255) 50%, rgb(0, 0, 0) 50%) right;
+    background-size: 200%;
+    transition: .5s ease-out;
+}
+#smp:hover {
+    background-position: left;
+}
+
+#sma{
+    background: linear-gradient(to left, rgb(147, 147, 147) 50%, rgb(0, 0, 0) 50%) right;
+    background-size: 200%;
+    transition: .4s ease-out;
+}
+#sma:hover {
+    background-position: left;
+}
+
+#uni{
+    background: linear-gradient(to left, rgb(255,0,0) 0%, rgb(0,0,0) 25%, rgb(0,31,255) 50%, rgb(0,0,0) 50%) right;
+    background-size: 200%;
+    transition: .4s ease-out;
+}
+#uni:hover {
+    background-position: left;
+}
+
+.edu-slide{
+    transform: translateX(16px);
+}
