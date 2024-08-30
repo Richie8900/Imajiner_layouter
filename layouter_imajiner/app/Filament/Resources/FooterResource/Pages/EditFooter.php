@@ -28,6 +28,11 @@ class EditFooter extends EditRecord
         return $this->getResource()::getUrl('index');
     }
 
+    public function preview()
+    {
+        return Redirect::to('componentPreview/footer/' . $this->record->id);
+    }
+
     public function sync_db_with_script()
     {
         DataSyncController::syncFooter($this->record->id, true);

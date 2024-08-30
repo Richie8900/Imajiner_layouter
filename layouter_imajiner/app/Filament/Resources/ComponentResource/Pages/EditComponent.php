@@ -28,6 +28,11 @@ class EditComponent extends EditRecord
         return $this->getResource()::getUrl('index');
     }
 
+    public function preview()
+    {
+        return Redirect::to('componentPreview/component/' . $this->record->id);
+    }
+
     public function sync_db_with_script()
     {
         DataSyncController::syncComponent($this->record->id, true);

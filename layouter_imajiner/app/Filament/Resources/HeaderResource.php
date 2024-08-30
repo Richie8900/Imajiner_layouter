@@ -78,6 +78,11 @@ class HeaderResource extends Resource
                         ->action('sync_db_with_script')
                 ])
                     ->hiddenOn('create'),
+                Forms\Components\Actions::make([
+                    Forms\Components\Actions\Action::make('Preview Header')
+                        ->action('preview')
+                ])
+                    ->hiddenOn('create'),
             ]);
     }
 

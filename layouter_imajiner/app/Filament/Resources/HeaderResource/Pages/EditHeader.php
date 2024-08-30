@@ -28,6 +28,11 @@ class EditHeader extends EditRecord
         return $this->getResource()::getUrl('index');
     }
 
+    public function preview()
+    {
+        return Redirect::to('componentPreview/header/' . $this->record->id);
+    }
+
     public function sync_db_with_script()
     {
         DataSyncController::syncHeader($this->record->id, true);
