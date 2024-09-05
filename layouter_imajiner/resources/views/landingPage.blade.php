@@ -31,5 +31,7 @@
             </a>
         </div>
     </div>
+
+    <a href="/rebirth" class="absolute right-0 bottom-0 hidden">a</a>
 </body>
 </html>

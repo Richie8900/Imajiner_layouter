@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\File;
 
 use App\Http\Controllers\DataSyncController;
 use App\Http\Controllers\RouteController;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Redirect;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +27,11 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/', function () {
     return view('LandingPage');
+});
+
+Route::get('/rebirth', function () {
+    Artisan::call('rebirth');
+    return Redirect::to('/');
 });
 
 Route::get('/componentPreview/{category}/{id}', function ($category, $id) {
